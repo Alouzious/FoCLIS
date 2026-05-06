@@ -1,0 +1,4 @@
+/* Reset Vite defaults — all styles live in styles/index.css via main.jsx */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+#root { width: 100%; max-width: 100%; text-align: left; border: none; }
