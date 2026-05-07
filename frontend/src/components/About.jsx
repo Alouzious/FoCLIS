@@ -1,87 +1,112 @@
 import { useEffect, useRef } from 'react'
-import { Target, Lightbulb, Users, TrendingUp } from 'lucide-react'
+import { Target, Lightbulb, Users, TrendingUp, Rocket, Globe } from 'lucide-react'
 
 const objectives = [
-  { icon: Target, title: 'Apply Knowledge', desc: 'Give students a platform to apply technical skills and creativity to real-world national challenges.' },
-  { icon: Lightbulb, title: 'Drive Innovation', desc: 'Promote development of digital solutions in agriculture, health, education, and economic empowerment.' },
-  { icon: Users, title: 'Build Teams', desc: 'Strengthen teamwork, critical thinking, and practical innovation among participants.' },
-  { icon: TrendingUp, title: 'National Impact', desc: 'Align student-led innovation with Uganda\'s NDP IV priorities for digital transformation.' },
+  {
+    icon: Target,
+    title: 'Apply Knowledge',
+    desc: 'Give students a real platform to apply technical skills and creativity to national challenges that matter.',
+  },
+  {
+    icon: Lightbulb,
+    title: 'Drive Innovation',
+    desc: 'Promote digital solutions across agriculture, health, education, and economic empowerment.',
+  },
+  {
+    icon: Users,
+    title: 'Build Teams',
+    desc: 'Strengthen collaboration, critical thinking, and practical innovation among participants.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'National Impact',
+    desc: "Align student-led innovation with Uganda's NDP IV priorities for digital transformation.",
+  },
+  {
+    icon: Rocket,
+    title: 'Seed Prototypes',
+    desc: 'Generate ideas with real potential for incubation, partnership, and community impact.',
+  },
+  {
+    icon: Globe,
+    title: 'Raise FOCLIS',
+    desc: 'Establish FOCLIS as a recognised centre for innovation and technology-driven change.',
+  },
 ]
 
 export default function About() {
   const ref = useRef()
+
   useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
-    }, { threshold: 0.1 })
-    ref.current?.querySelectorAll('.section-fade').forEach(el => obs.observe(el))
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('ab-visible') }),
+      { threshold: 0.08 }
+    )
+    ref.current?.querySelectorAll('.ab-fade').forEach(el => obs.observe(el))
     return () => obs.disconnect()
   }, [])
 
   return (
-    <section id="about" ref={ref} className="relative py-28 lg:py-36 bg-brand-navy grid-bg overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-accent/40 to-transparent" />
+    <section id="about" ref={ref} className="about-root">
 
-      <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        {/* Label */}
-        <div className="section-fade flex items-center gap-3 mb-6">
-          <div className="h-px w-8 bg-brand-accent" />
-          <span className="font-mono text-xs tracking-[0.2em] text-brand-accent uppercase">About the Hackathon</span>
+      <div className="about-container">
+
+        {/* ── TOP: Eyebrow + Headline + Body ── */}
+        <div className="about-intro ab-fade">
+          <span className="about-eyebrow">About the Hackathon</span>
+          <h2 className="about-heading">
+            Student innovation,<br />
+            <span className="about-heading-accent">applied to Uganda.</span>
+          </h2>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left: Text */}
-          <div className="section-fade" style={{ transitionDelay: '0.1s' }}>
-            <h2 className="font-heading font-800 text-5xl lg:text-6xl text-white leading-none mb-6">
-              Where <span className="text-brand-green">Ideas</span><br />Meet <span className="text-brand-accent">Impact</span>
-            </h2>
-            <p className="font-body text-blue-200 text-base leading-relaxed mb-5">
-              The FoCLIS Hackathon 2026 is an innovation-driven initiative that brings together students to develop practical, technology-based solutions to real challenges facing communities across Uganda.
-            </p>
-            <p className="font-body text-blue-200 text-base leading-relaxed mb-5">
-              Organized under the Faculty of Computing, Library and Information Science (FOCLIS) at Kabale University, this is the <strong className="text-white">2nd Edition</strong> of Uganda's most impactful student hackathon.
-            </p>
-            <p className="font-body text-blue-200 text-base leading-relaxed">
-              The hackathon is grounded in Uganda's Fourth National Development Plan (NDP IV), which emphasizes science, technology, innovation, and digital transformation as key drivers of socio-economic growth.
-            </p>
+        <div className="about-body-grid ab-fade" style={{ transitionDelay: '0.1s' }}>
+          <p className="about-body-text">
+            The <strong>FoCLIS Hackathon 2026</strong> is an innovation-driven initiative organised under the Faculty of Computing, Library and Information Science at Kabale University. Now in its <strong>2nd Edition</strong>, it brings together students to build practical, technology-based solutions to real challenges facing communities across Uganda.
+          </p>
+          <p className="about-body-text">
+            The hackathon is rooted in Uganda's Fourth National Development Plan (NDP IV), which places science, technology, innovation, and digital transformation at the centre of socio-economic growth. Students are challenged to go beyond the classroom, identifying pressing problems and developing working prototypes that respond to what communities actually need.
+          </p>
+        </div>
 
-            {/* COSAKU / KAB badge */}
-            <div className="mt-10 glass rounded-xl p-5 flex items-center gap-5">
-              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand-accent/20 flex items-center justify-center">
-                <span className="font-display text-2xl text-brand-accent">K</span>
+        {/* ── DIVIDER ── */}
+        <div className="about-rule ab-fade" style={{ transitionDelay: '0.15s' }} />
+
+        {/* ── MIDDLE: Theme Block ── */}
+        <div className="about-theme-block ab-fade" style={{ transitionDelay: '0.18s' }}>
+          <span className="about-theme-label">2026 Theme</span>
+          <p className="about-theme-text">
+            "Innovating for a Resilient Uganda: Advancing Climate-Smart Agriculture, Inclusive Health and Education, and Economic Empowerment"
+          </p>
+        </div>
+
+        {/* ── DIVIDER ── */}
+        <div className="about-rule ab-fade" style={{ transitionDelay: '0.2s' }} />
+
+        {/* ── BOTTOM: Objectives ── */}
+        <div className="about-obj-header ab-fade" style={{ transitionDelay: '0.22s' }}>
+          <span className="about-eyebrow">Objectives</span>
+          <h3 className="about-subheading">What we aim to achieve</h3>
+        </div>
+
+        <div className="about-obj-grid">
+          {objectives.map(({ icon: Icon, title, desc }, i) => (
+            <div
+              key={title}
+              className="about-obj-card ab-fade"
+              style={{ transitionDelay: `${0.25 + i * 0.06}s` }}
+            >
+              <div className="about-obj-icon">
+                <Icon size={20} />
               </div>
               <div>
-                <div className="font-heading font-700 text-white text-sm">Kabale University · COSAKU</div>
-                <div className="font-body text-blue-300 text-xs mt-0.5">Faculty of Computing, Library & Information Science (FOCLIS)</div>
+                <h4 className="about-obj-title">{title}</h4>
+                <p className="about-obj-desc">{desc}</p>
               </div>
             </div>
-          </div>
-
-          {/* Right: Objectives */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {objectives.map(({ icon: Icon, title, desc }, i) => (
-              <div key={title} className="section-fade glass rounded-xl p-5 hover:border-brand-accent/40 hover:shadow-[0_0_30px_rgba(26,107,255,0.1)] transition-all duration-300 group"
-                style={{ transitionDelay: `${0.2 + i * 0.1}s` }}>
-                <div className="w-10 h-10 rounded-lg bg-brand-accent/15 flex items-center justify-center text-brand-accent mb-4 group-hover:bg-brand-accent/25 transition-colors">
-                  <Icon size={20} />
-                </div>
-                <h3 className="font-heading font-700 text-base text-white mb-2">{title}</h3>
-                <p className="font-body text-xs text-blue-300 leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
 
-        {/* Quote */}
-        <div className="section-fade mt-20 text-center" style={{ transitionDelay: '0.6s' }}>
-          <div className="max-w-3xl mx-auto glass rounded-2xl p-10">
-            <div className="font-display text-6xl text-brand-accent/30 leading-none mb-4">"</div>
-            <p className="font-heading font-600 text-xl lg:text-2xl text-white leading-snug">
-              Innovate. Collaborate. Impact.<br />
-              <span className="text-brand-green">Build solutions. Create change. Inspire Uganda.</span>
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   )

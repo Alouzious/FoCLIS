@@ -1,11 +1,10 @@
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
-import ThemesTeaser from '../components/ThemesTeaser'
-import Timeline from '../components/Timeline'
+import Prizes from '../components/Prizes'
+import Judges from '../components/Judges'
 import Partners from '../components/Partners'
-import Team from '../components/Team'
-import Register from '../components/Register'
+import FAQ from '../components/Faq'
 import Footer from '../components/Footer'
 
 export default function HomePage() {
@@ -15,11 +14,10 @@ export default function HomePage() {
       <main>
         <Hero />
         <About />
-        <ThemesTeaser />
-        <Timeline />
+        <Prizes />
+        <Judges />
         <Partners />
-        <Team />
-        <Register />
+        <FAQ />
       </main>
       <Footer />
     </>

@@ -2,13 +2,18 @@ import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
+// ─── Nav Links ─────────────────────────────────────────────────────────────
+// Removed: Timeline (was redundant with Schedule)
+// Added:   Schedule, Prizes, Speakers, FAQ
 const navLinks = [
-  { label: 'About',    href: '/#about',    type: 'hash' },
-  { label: 'Themes',   href: '/themes',    type: 'page' },
-  { label: 'Timeline', href: '/#timeline', type: 'hash' },
-  { label: 'Partners', href: '/#partners', type: 'hash' },
-  { label: 'Team',     href: '/#team',     type: 'hash' },
-  { label: 'Contact',  href: '/#contact',  type: 'hash' },
+  { label: 'About',     href: '/#about',     type: 'hash' },
+  { label: 'Themes',    href: '/themes',      type: 'page' },
+  { label: 'Schedule',  href: '/#schedule',   type: 'hash' },
+  { label: 'Prizes',    href: '/#prizes',     type: 'hash' },
+  { label: 'Speakers',  href: '/#speakers',   type: 'hash' },
+  { label: 'Partners',  href: '/#partners',   type: 'hash' },
+  { label: 'Team',      href: '/#team',       type: 'hash' },
+  { label: 'FAQ',       href: '/#faq',        type: 'hash' },
 ]
 
 export default function Navbar() {
@@ -18,125 +23,114 @@ export default function Navbar() {
   const onThemesPage            = location.pathname === '/themes'
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => { setOpen(false) }, [location.pathname])
 
-  return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'glass-strong shadow-lg shadow-black/30' : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-5 lg:px-10 flex items-center justify-between h-16 lg:h-20">
+  // Resolve href depending on current page
+  const resolveHref = (link) => {
+    if (link.type === 'page') return link.href
+    return onThemesPage ? link.href : link.href.replace('/#', '#')
+  }
 
-        {/* ── Logo ── */}
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-lg bg-brand-accent flex items-center justify-center text-white font-display text-lg leading-none group-hover:shadow-[0_0_20px_rgba(26,107,255,0.7)] transition-shadow">
-            F
-          </div>
-          <div className="hidden sm:block">
-            <div className="font-heading font-800 text-sm tracking-widest text-white uppercase">FoCLIS</div>
-            <div className="font-mono text-[10px] text-brand-accent tracking-widest">HACKATHON 2026</div>
+  return (
+    <header className={`navbar-root ${scrolled ? 'navbar-scrolled' : ''}`}>
+      <div className="navbar-inner">
+
+        {/* ── Logo ──────────────────────────────────────────────────── */}
+        <Link to="/" className="navbar-logo">
+          {/*
+            LOGO IMAGE — replace the src below with your actual logo path.
+            Example: src="/assets/foclis-logo.png"
+            or:       src="https://your-cdn.com/logo.png"
+
+            The placeholder below uses Unsplash for demo purposes only.
+          */}
+          <img
+            src="https://images.unsplash.com/photo-1614332287897-cdc485fa562d?w=40&h=40&fit=crop&crop=center"
+            alt="FoCLIS Logo"
+            className="navbar-logo-img"
+          />
+          <div className="navbar-logo-text">
+            <span className="navbar-logo-name">FoCLIS</span>
+            <span className="navbar-logo-sub">HACKATHON 2026</span>
           </div>
         </Link>
 
-        {/* ── Desktop Nav ── */}
-        <nav className="hidden lg:flex items-center gap-8">
+        {/* ── Desktop Nav ───────────────────────────────────────────── */}
+        <nav className="navbar-links">
           {navLinks.map(link => {
-            const isActive =
-              link.type === 'page'
-                ? location.pathname === link.href
-                : false
+            const isActive = link.type === 'page' && location.pathname === link.href
+            const El       = link.type === 'page' ? Link : 'a'
+            const prop     = link.type === 'page' ? { to: link.href } : { href: resolveHref(link) }
 
-            return link.type === 'page' ? (
-              <Link
+            return (
+              <El
                 key={link.label}
-                to={link.href}
-                className={`font-heading font-600 text-sm tracking-wider uppercase transition-all duration-200 ${
-                  isActive
-                    ? 'text-white text-glow border-b border-brand-accent pb-0.5'
-                    : 'text-blue-200 hover:text-white hover:text-glow'
-                }`}
+                {...prop}
+                className={`navbar-link ${isActive ? 'navbar-link--active' : ''}`}
               >
                 {link.label}
-              </Link>
-            ) : (
-              <a
-                key={link.label}
-                href={onThemesPage ? link.href : link.href.replace('/#', '#')}
-                className="font-heading font-600 text-sm tracking-wider text-blue-200 hover:text-white hover:text-glow transition-all duration-200 uppercase"
-              >
-                {link.label}
-              </a>
+              </El>
             )
           })}
         </nav>
 
-        {/* ── Desktop CTA ── */}
-        <div className="hidden lg:flex items-center gap-3">
-          <a
-            href={onThemesPage ? '/#register' : '#register'}
-            className="px-5 py-2.5 rounded-lg bg-brand-accent text-white font-heading font-700 text-sm tracking-wider uppercase hover:bg-blue-500 hover:shadow-[0_0_25px_rgba(26,107,255,0.6)] transition-all duration-300"
+        {/* ── Register CTA ─────────────────────────────────────────── */}
+        <div className="navbar-cta">
+          <Link
+            to="/register"
+            className="btn-register"
           >
             Register Now
-          </a>
+          </Link>
         </div>
 
-        {/* ── Mobile Toggle ── */}
+        {/* ── Mobile Toggle ────────────────────────────────────────── */}
         <button
-          className="lg:hidden text-white p-2"
+          className="navbar-mobile-toggle"
           onClick={() => setOpen(v => !v)}
-          aria-label="Toggle menu"
+          aria-label="Toggle navigation menu"
         >
-          {open ? <X size={24} /> : <Menu size={24} />}
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* ── Mobile Menu ── */}
-      {open && (
-        <div className="lg:hidden glass-strong border-t border-blue-900/40">
-          <nav className="flex flex-col px-5 py-6 gap-1">
-            {navLinks.map(link =>
-              link.type === 'page' ? (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  onClick={() => setOpen(false)}
-                  className={`font-heading font-600 text-base tracking-wider uppercase py-2.5 px-3 rounded-lg transition-all duration-200 ${
-                    location.pathname === link.href
-                      ? 'text-white bg-brand-accent/20'
-                      : 'text-blue-200 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <a
-                  key={link.label}
-                  href={onThemesPage ? link.href : link.href.replace('/#', '#')}
-                  onClick={() => setOpen(false)}
-                  className="font-heading font-600 text-base tracking-wider text-blue-200 hover:text-white uppercase py-2.5 px-3 rounded-lg hover:bg-white/5 transition-all duration-200"
-                >
-                  {link.label}
-                </a>
-              )
-            )}
+      {/* ── Mobile Drawer ────────────────────────────────────────────── */}
+      <div className={`navbar-drawer ${open ? 'navbar-drawer--open' : ''}`}>
+        <nav className="navbar-drawer-links">
+          {navLinks.map(link => {
+            const isActive = link.type === 'page' && location.pathname === link.href
+            const El       = link.type === 'page' ? Link : 'a'
+            const prop     = link.type === 'page'
+              ? { to: link.href, onClick: () => setOpen(false) }
+              : { href: resolveHref(link), onClick: () => setOpen(false) }
 
-            <a
-              href={onThemesPage ? '/#register' : '#register'}
-              onClick={() => setOpen(false)}
-              className="mt-3 px-5 py-3 rounded-lg bg-brand-accent text-white font-heading font-700 text-sm tracking-wider uppercase text-center hover:bg-blue-500 transition-colors"
-            >
-              Register Now
-            </a>
-          </nav>
-        </div>
-      )}
+            return (
+              <El
+                key={link.label}
+                {...prop}
+                className={`navbar-drawer-link ${isActive ? 'navbar-drawer-link--active' : ''}`}
+              >
+                {link.label}
+              </El>
+            )
+          })}
+
+          {/* should go on register page not home page which is at pages RegisterPage.jsx */}
+
+          <Link
+            to="/register"
+            onClick={() => setOpen(false)}
+            className="btn-register btn-register--mobile"
+          >
+            Register Now
+          </Link>
+        </nav>
+      </div>
     </header>
   )
 }

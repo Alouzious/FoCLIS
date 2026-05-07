@@ -1,129 +1,120 @@
-import { useEffect, useRef } from 'react'
-import { HandshakeIcon, Building2, GraduationCap, Globe } from 'lucide-react'
+const KAB_LOGO = 'https://www.kab.ac.ug/wp-content/uploads/2022/08/Kabale-University-Website-Logo-2.jpg'
 
-const partnerTiers = [
+const partners = [
   {
-    tier: 'Title Partner',
-    color: '#F59E0B',
-    partners: [
-      { name: 'Kabale University', abbr: 'KAB', desc: 'Host Institution', icon: GraduationCap },
-      { name: 'FOCLIS – Faculty of Computing, Library & Information Science', abbr: 'FOCLIS', desc: 'Organizing Faculty', icon: Building2 },
-    ],
+    id: 1,
+    name: 'Kabale University',
+    logo: KAB_LOGO,
+    tier: 'Gold',
+    description: 'A leading university in Western Uganda, driving innovation in science, technology and community development.',
+    website: 'https://www.kab.ac.ug',
   },
   {
-    tier: 'Supporting Partners',
-    color: '#1A6BFF',
-    partners: [
-      { name: 'COSAKU', abbr: 'COSAKU', desc: 'Computing Students Association', icon: GraduationCap },
-      { name: 'Uganda NDP IV Initiative', abbr: 'NDP IV', desc: 'National Development Plan', icon: Globe },
-    ],
+    id: 2,
+    name: 'Kabale University',
+    logo: KAB_LOGO,
+    tier: 'Gold',
+    description: 'Home of the Faculty of Computing & Information Systems — the organizing faculty behind FoCLIS Hackathon.',
+    website: 'https://www.kab.ac.ug',
+  },
+  {
+    id: 3,
+    name: 'Kabale University',
+    logo: KAB_LOGO,
+    tier: 'Silver',
+    description: 'Supporting student innovation and tech entrepreneurship across the Kigezi region and beyond.',
+    website: 'https://www.kab.ac.ug',
+  },
+  {
+    id: 4,
+    name: 'Kabale University',
+    logo: KAB_LOGO,
+    tier: 'Silver',
+    description: 'Committed to empowering the next generation of African engineers and digital problem-solvers.',
+    website: 'https://www.kab.ac.ug',
   },
 ]
 
-const becomeOptions = [
-  { icon: '🤝', title: 'Hack Partner', desc: 'Co-brand the event, sponsor prizes, and gain direct access to Uganda\'s brightest student innovators.' },
-  { icon: '🎓', title: 'Academic Partner', desc: 'Collaborate on research tracks, provide expert judges, and strengthen university-industry ties.' },
-  { icon: '💼', title: 'Industry Mentor', desc: 'Guide teams, provide technical workshops, and identify solutions relevant to your sector.' },
-  { icon: '🏆', title: 'Prize Sponsor', desc: 'Fund awards and recognition for outstanding innovations across the four hackathon tracks.' },
-]
+const tierColors = {
+  Gold:   { bg: 'rgba(245,158,11,0.1)',  color: '#F59E0B', border: 'rgba(245,158,11,0.25)' },
+  Silver: { bg: 'rgba(148,163,184,0.1)', color: '#94A3B8', border: 'rgba(148,163,184,0.25)' },
+  Bronze: { bg: 'rgba(180,100,50,0.1)',  color: '#B46432', border: 'rgba(180,100,50,0.25)' },
+}
 
 export default function Partners() {
-  const ref = useRef()
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }),
-      { threshold: 0.1 }
-    )
-    ref.current?.querySelectorAll('.section-fade').forEach(el => obs.observe(el))
-    return () => obs.disconnect()
-  }, [])
-
   return (
-    <section id="partners" ref={ref} className="relative py-28 lg:py-36 overflow-hidden" style={{ background: '#040E22' }}>
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent" />
+    <section id="partners" style={{ padding: '80px 0', background: '#020B1E', borderTop: '1px solid rgba(26,107,255,0.08)' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
 
-      <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <div className="section-fade flex items-center gap-3 mb-6">
-          <div className="h-px w-8 bg-brand-accent" />
-          <span className="font-mono text-xs tracking-[0.2em] text-brand-accent uppercase">Our Partners</span>
-        </div>
-        <div className="section-fade mb-16" style={{ transitionDelay: '0.1s' }}>
-          <h2 className="font-heading font-800 text-5xl lg:text-6xl text-white leading-none">
-            Backed by <span className="text-brand-accent">Excellence</span>
+        <div style={{ marginBottom: '48px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#1A6BFF', marginBottom: '10px' }}>
+            FoCLIS Hackathon 2026
+          </p>
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 700, color: '#F0F4FF', margin: 0, lineHeight: 1.15 }}>
+            Partners &amp; <span style={{ color: '#1A6BFF' }}>Sponsors</span>
           </h2>
-          <p className="font-body text-blue-300 text-base mt-3 max-w-xl">
-            The FOCLIS Hackathon is powered by institutions and organizations committed to innovation, digital transformation, and student empowerment.
+          <p style={{ marginTop: '10px', fontSize: '14px', color: 'rgba(240,244,255,0.4)', maxWidth: '460px' }}>
+            Organizations backing FoCLIS Hackathon 2026. More sponsors will be announced soon.
           </p>
         </div>
 
-        {/* Existing partners */}
-        {partnerTiers.map((tier, ti) => (
-          <div key={tier.tier} className="section-fade mb-12" style={{ transitionDelay: `${0.2 + ti * 0.1}s` }}>
-            <div className="flex items-center gap-3 mb-6">
-              <span className="font-mono text-xs tracking-widest uppercase" style={{ color: tier.color }}>{tier.tier}</span>
-              <div className="h-px flex-1" style={{ background: `${tier.color}30` }} />
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {tier.partners.map(p => {
-                const Icon = p.icon
-                return (
-                  <div key={p.name} className="glass rounded-xl p-6 flex flex-col items-center text-center hover:scale-105 transition-all duration-300 group"
-                    style={{ borderColor: `${tier.color}30` }}>
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                      style={{ background: `${tier.color}15`, border: `1px solid ${tier.color}30` }}>
-                      <Icon size={28} style={{ color: tier.color }} />
-                    </div>
-                    <div className="font-display text-2xl mb-1" style={{ color: tier.color }}>{p.abbr}</div>
-                    <div className="font-heading font-600 text-xs text-white text-center leading-snug mb-1">{p.name}</div>
-                    <div className="font-mono text-[10px] text-blue-400 tracking-widest uppercase">{p.desc}</div>
-                  </div>
-                )
-              })}
-              {/* Placeholder slots */}
-              {[...Array(Math.max(0, 4 - tier.partners.length))].map((_, i) => (
-                <div key={`ph-${i}`} className="glass rounded-xl p-6 flex flex-col items-center text-center border-dashed opacity-40"
-                  style={{ border: `1.5px dashed ${tier.color}40` }}>
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                    style={{ background: `${tier.color}08` }}>
-                    <span className="text-2xl opacity-40">+</span>
-                  </div>
-                  <div className="font-mono text-[10px] text-blue-500 tracking-widest uppercase">Your Logo Here</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-
-        {/* Become a partner */}
-        <div className="section-fade mt-20" style={{ transitionDelay: '0.5s' }}>
-          <div className="glass rounded-2xl p-10 lg:p-14" style={{ background: 'rgba(26,107,255,0.06)', borderColor: 'rgba(26,107,255,0.2)' }}>
-            <div className="flex items-center gap-3 mb-3">
-              <HandshakeIcon size={20} className="text-brand-accent" />
-              <span className="font-mono text-xs tracking-widest text-brand-accent uppercase">Partner With Us</span>
-            </div>
-            <h3 className="font-heading font-800 text-3xl lg:text-4xl text-white mb-4">
-              Become a <span className="text-brand-accent">Hack Partner</span>
-            </h3>
-            <p className="font-body text-blue-300 text-base mb-10 max-w-2xl">
-              Join us in shaping Uganda's next generation of digital innovators. Partnering with FOCLIS Hackathon 2026 means connecting your brand to impact, excellence, and national development.
-            </p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-              {becomeOptions.map(opt => (
-                <div key={opt.title} className="glass rounded-xl p-5 hover:bg-white/5 transition-all duration-300">
-                  <div className="text-3xl mb-3">{opt.icon}</div>
-                  <h4 className="font-heading font-700 text-sm text-white mb-2">{opt.title}</h4>
-                  <p className="font-body text-xs text-blue-300 leading-relaxed">{opt.desc}</p>
-                </div>
-              ))}
-            </div>
-            <a href="#contact"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-brand-accent text-white font-heading font-700 text-sm tracking-wider uppercase hover:shadow-[0_0_40px_rgba(26,107,255,0.6)] hover:scale-105 transition-all duration-300">
-              Enquire About Partnership →
-            </a>
-          </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '20px' }}>
+          {partners.map(p => <PartnerCard key={p.id} partner={p} />)}
         </div>
+
+        <div style={{ marginTop: '40px', padding: '20px 24px', background: 'rgba(26,107,255,0.05)', border: '1px dashed rgba(26,107,255,0.2)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+          <div>
+            <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: '#F0F4FF' }}>Want to sponsor FoCLIS Hackathon?</p>
+            <p style={{ margin: '4px 0 0', fontSize: '13px', color: 'rgba(240,244,255,0.4)' }}>Reach hundreds of top student innovators across Uganda.</p>
+          </div>
+          <a href="mailto:hackathon@kab.ac.ug" style={{ padding: '9px 20px', fontSize: '13px', fontWeight: 600, borderRadius: '8px', background: '#1A6BFF', color: '#fff', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
+            Get in touch
+          </a>
+        </div>
+
       </div>
     </section>
+  )
+}
+
+function PartnerCard({ partner }) {
+  const t = tierColors[partner.tier]
+  return (
+    <div
+      style={{ background: 'rgba(10,31,68,0.45)', border: '1px solid rgba(26,107,255,0.12)', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px', transition: 'border-color 0.2s, transform 0.2s' }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(26,107,255,0.3)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(26,107,255,0.12)'; e.currentTarget.style.transform = 'translateY(0)' }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ height: '48px', padding: '6px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(26,107,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center' }}>
+          <img src={partner.logo} alt={partner.name} loading="lazy" decoding="async" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
+        </div>
+        <span style={{ fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 10px', borderRadius: '20px', background: t.bg, color: t.color, border: `1px solid ${t.border}` }}>
+          {partner.tier}
+        </span>
+      </div>
+
+      <p style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#F0F4FF', fontFamily: "'Syne', sans-serif" }}>
+        {partner.name}
+      </p>
+
+      <p style={{ margin: 0, fontSize: '12.5px', color: 'rgba(240,244,255,0.45)', lineHeight: 1.6, flexGrow: 1 }}>
+        {partner.description}
+      </p>
+
+      <a
+        href={partner.website}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', fontWeight: 600, color: '#1A6BFF', textDecoration: 'none' }}
+        onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+        onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
+      >
+        Visit website
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+          <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="#1A6BFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </a>
+    </div>
   )
 }
