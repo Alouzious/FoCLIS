@@ -2,7 +2,7 @@ import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
 import Prizes from '../components/Prizes'
-// import Timeline from '../components/Timeline'
+import Timeline from '../components/Timeline'
 import Judges from '../components/Judges'
 import Partners from '../components/Partners'
 import FAQ from '../components/Faq'
@@ -16,7 +16,7 @@ export default function HomePage() {
         <Hero />
         <About />
         <Prizes />
-        {/* <Timeline /> */}
+        <Timeline />
         <Judges />
         <Partners />
         <FAQ />
