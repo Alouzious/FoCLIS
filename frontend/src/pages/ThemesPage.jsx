@@ -180,9 +180,9 @@ function TrackSection({ track, isLast }) {
             Building in the <strong style={{ color: track.color }}>{track.title}</strong> track?
             Applications open <strong>June 6, 2026.</strong>
           </p>
-          <a href="/#register" className="themes-track-cta-link" style={{ color: track.color }}>
-            Register & Get Notified <ArrowRight size={14} />
-          </a>
+          <button disabled style={{ color: track.color, opacity: 0.5, cursor: 'not-allowed', background: 'none', border: 'none', padding: 0, font: 'inherit', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Lock size={14} /> Register Locked <ArrowRight size={14} />
+          </button>
         </div>
 
       </div>
@@ -269,7 +269,9 @@ export default function ThemesPage() {
             Applications open June 6, 2026. Pick your track, form your team, and build something that matters.
           </p>
           <div className="themes-closing-actions">
-            <a href="/#register" className="themes-btn-primary">Register Now</a>
+            <button disabled style={{ opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }} className="themes-btn-primary">
+              <Lock size={16} /> Register Locked
+            </button>
             <a href="/#about" className="themes-btn-secondary">Learn More</a>
           </div>
         </div>

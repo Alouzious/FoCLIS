@@ -12,6 +12,7 @@ const prizes = [
     amount: 'TBA',
     perks: ['Cash Prize', 'Certificate of Excellence', 'Trophy & Recognition', 'Incubation Support'],
     featured: true,
+    updating: false,
   },
   {
     rank: '2nd',
@@ -23,6 +24,7 @@ const prizes = [
     amount: 'TBA',
     perks: ['Cash Prize', 'Certificate of Merit', 'Medal & Recognition'],
     featured: false,
+    updating: true,
   },
   {
     rank: '3rd',
@@ -34,6 +36,7 @@ const prizes = [
     amount: 'TBA',
     perks: ['Cash Prize', 'Certificate of Merit', 'Medal & Recognition'],
     featured: false,
+    updating: true,
   },
 ]
 
@@ -74,7 +77,7 @@ export default function Prizes() {
 
         {/* ── Main prizes ── */}
         <div className="prizes-main-grid">
-          {prizes.map(({ rank, label, Icon, color, bg, border, amount, perks, featured }, i) => (
+          {prizes.map(({ rank, label, Icon, color, bg, border, amount, perks, featured, updating }, i) => (
             <div
               key={rank}
               className={`pz-fade prizes-card ${featured ? 'prizes-card--featured' : ''}`}
@@ -101,12 +104,26 @@ export default function Prizes() {
                 {amount}
               </div>
 
-              <div className="prizes-card-divider" style={{ background: border }} />
+              <div className="prizes-card-divider" style={{ background: border, margin: '16px 0' }} />
 
-              <ul className="prizes-card-perks">
+              <ul className="prizes-card-perks" style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {perks.map((perk, j) => (
-                  <li key={j} className="prizes-card-perk">
-                    <span className="prizes-perk-dot" style={{ background: color }} />
+                  <li 
+                    key={j} 
+                    className="prizes-card-perk"
+                    style={{
+                      padding: '12px 0',
+                      borderBottom: j < perks.length - 1 ? `1px solid ${border}` : 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      fontSize: '13px',
+                      color: 'rgba(232,237,248,0.5)',
+                      textDecoration: 'line-through',
+                      opacity: 0.6,
+                    }}
+                  >
+                    <span className="prizes-perk-dot" style={{ background: color, minWidth: '6px', minHeight: '6px', borderRadius: '50%' }} />
                     {perk}
                   </li>
                 ))}

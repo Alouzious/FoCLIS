@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
-import { Link, useLocation } from 'react-router-dom'
+import { Menu, X, Lock } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 // ─── Nav Links ─────────────────────────────────────────────────────────────
-// Removed: Timeline (was redundant with Schedule)
-// Added:   Schedule, Prizes, Speakers, FAQ
 const navLinks = [
   { label: 'About',     href: '/#about',     type: 'hash' },
   { label: 'Themes',    href: '/themes',      type: 'page' },
-  { label: 'Schedule',  href: '/#schedule',   type: 'hash' },
   { label: 'Prizes',    href: '/#prizes',     type: 'hash' },
+  { label: 'Schedule',  href: '#timeline',   type: 'hash' },
   { label: 'Speakers',  href: '/#speakers',   type: 'hash' },
   { label: 'Partners',  href: '/#partners',   type: 'hash' },
-  { label: 'Team',      href: '/#team',       type: 'hash' },
   { label: 'FAQ',       href: '/#faq',        type: 'hash' },
 ]
 
@@ -20,7 +17,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen]         = useState(false)
   const location                = useLocation()
-  const onThemesPage            = location.pathname === '/themes'
+  const navigate                = useNavigate()
+  const isHomePage              = location.pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -30,10 +28,19 @@ export default function Navbar() {
 
   useEffect(() => { setOpen(false) }, [location.pathname])
 
-  // Resolve href depending on current page
-  const resolveHref = (link) => {
-    if (link.type === 'page') return link.href
-    return onThemesPage ? link.href : link.href.replace('/#', '#')
+  // Handle hash link navigation
+  const handleHashLink = (href) => {
+    const sectionId = href.split('#')[1]
+    if (isHomePage) {
+      // If on homepage, scroll to section
+      setTimeout(() => {
+        const element = document.getElementById(sectionId)
+        if (element) element.scrollIntoView({ behavior: 'smooth' })
+      }, 0)
+    } else {
+      // If on other page, navigate to homepage with hash
+      navigate(`/#${sectionId}`)
+    }
   }
 
   return (
@@ -64,29 +71,52 @@ export default function Navbar() {
         <nav className="navbar-links">
           {navLinks.map(link => {
             const isActive = link.type === 'page' && location.pathname === link.href
-            const El       = link.type === 'page' ? Link : 'a'
-            const prop     = link.type === 'page' ? { to: link.href } : { href: resolveHref(link) }
+
+            if (link.type === 'hash') {
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleHashLink(link.href)
+                  }}
+                  className={`navbar-link ${isActive ? 'navbar-link--active' : ''}`}
+                >
+                  {link.label}
+                </a>
+              )
+            }
 
             return (
-              <El
+              <Link
                 key={link.label}
-                {...prop}
+                to={link.href}
                 className={`navbar-link ${isActive ? 'navbar-link--active' : ''}`}
               >
                 {link.label}
-              </El>
+              </Link>
             )
           })}
         </nav>
 
         {/* ── Register CTA ─────────────────────────────────────────── */}
         <div className="navbar-cta">
-          <Link
-            to="/register"
+          <button
+            disabled
             className="btn-register"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              opacity: 0.5,
+              cursor: 'not-allowed',
+              pointerEvents: 'none',
+            }}
           >
-            Register Now
-          </Link>
+            <Lock size={16} />
+            Register Locked
+          </button>
         </div>
 
         {/* ── Mobile Toggle ────────────────────────────────────────── */}
@@ -104,31 +134,54 @@ export default function Navbar() {
         <nav className="navbar-drawer-links">
           {navLinks.map(link => {
             const isActive = link.type === 'page' && location.pathname === link.href
-            const El       = link.type === 'page' ? Link : 'a'
-            const prop     = link.type === 'page'
-              ? { to: link.href, onClick: () => setOpen(false) }
-              : { href: resolveHref(link), onClick: () => setOpen(false) }
+
+            if (link.type === 'hash') {
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleHashLink(link.href)
+                    setOpen(false)
+                  }}
+                  className={`navbar-drawer-link ${isActive ? 'navbar-drawer-link--active' : ''}`}
+                >
+                  {link.label}
+                </a>
+              )
+            }
 
             return (
-              <El
+              <Link
                 key={link.label}
-                {...prop}
+                to={link.href}
+                onClick={() => setOpen(false)}
                 className={`navbar-drawer-link ${isActive ? 'navbar-drawer-link--active' : ''}`}
               >
                 {link.label}
-              </El>
+              </Link>
             )
           })}
 
           {/* should go on register page not home page which is at pages RegisterPage.jsx */}
 
-          <Link
-            to="/register"
-            onClick={() => setOpen(false)}
+          <button
+            disabled
             className="btn-register btn-register--mobile"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              opacity: 0.5,
+              cursor: 'not-allowed',
+              pointerEvents: 'none',
+            }}
           >
-            Register Now
-          </Link>
+            <Lock size={16} />
+            Register Locked
+          </button>
         </nav>
       </div>
     </header>

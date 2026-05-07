@@ -3,162 +3,220 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import {
   Users, Briefcase, GraduationCap, Building2,
-  ChevronRight, CheckCircle2, AlertCircle, Plus, Minus, Lock
+  ChevronRight, CheckCircle2, Lock, Plus, Minus,
+  AlertCircle, Leaf, HeartPulse, BookOpen, TrendingUp,
+  Lightbulb,
 } from 'lucide-react'
 
-// ─── Role definitions ───────────────────────────────────────────────
+// ─── CONFIG ──────────────────────────────────────────────────────────
+const API_ENDPOINT = '/api/register' // swap in your real endpoint
+
+// ─── ROLES ───────────────────────────────────────────────────────────
 const ROLES = [
-  {
-    id: 'hacker',
-    icon: Users,
-    label: 'Hacker',
-    sub: 'Compete & build a solution',
-    color: '#1A6BFF',
-    colorBg: 'rgba(26,107,255,0.08)',
-    colorBorder: 'rgba(26,107,255,0.25)',
-  },
-  {
-    id: 'attendee',
-    icon: GraduationCap,
-    label: 'Attendee',
-    sub: 'Watch, learn & network',
-    color: '#22C55E',
-    colorBg: 'rgba(34,197,94,0.08)',
-    colorBorder: 'rgba(34,197,94,0.25)',
-  },
-  {
-    id: 'sponsor',
-    icon: Building2,
-    label: 'Hack Partner',
-    sub: 'Sponsor & support innovation',
-    color: '#F59E0B',
-    colorBg: 'rgba(245,158,11,0.08)',
-    colorBorder: 'rgba(245,158,11,0.25)',
-  },
-  {
-    id: 'lecturer',
-    icon: Briefcase,
-    label: 'Lecturer / Mentor',
-    sub: 'Guide & judge teams',
-    color: '#A855F7',
-    colorBg: 'rgba(168,85,247,0.08)',
-    colorBorder: 'rgba(168,85,247,0.25)',
-  },
+  { id: 'hacker',   icon: Users,         label: 'Hacker',          sub: 'Compete & build', color: '#3B82F6' },
+  { id: 'attendee', icon: GraduationCap, label: 'Attendee',        sub: 'Watch & learn',   color: '#10B981' },
+  { id: 'sponsor',  icon: Building2,     label: 'Hack Partner',    sub: 'Sponsor & support', color: '#F59E0B' },
+  { id: 'lecturer', icon: Briefcase,     label: 'Lecturer/Mentor', sub: 'Guide & judge',   color: '#8B5CF6' },
 ]
 
-// ─── Shared field component ──────────────────────────────────────────
+// ─── TRACKS ──────────────────────────────────────────────────────────
+const TRACKS = [
+  { value: 'climate',   label: 'Climate-Smart Agriculture', Icon: Leaf,        color: '#10B981' },
+  { value: 'health',    label: 'Inclusive Health',          Icon: HeartPulse,  color: '#F43F5E' },
+  { value: 'education', label: 'Inclusive Education',       Icon: BookOpen,    color: '#3B82F6' },
+  { value: 'economic',  label: 'Economic Empowerment',      Icon: TrendingUp,  color: '#F59E0B' },
+]
+
+// ─── COURSES ─────────────────────────────────────────────────────────
+const COURSES = [
+  { value: 'BIT', label: 'BIT – Bachelor of Information Technology' },
+  { value: 'BCS', label: 'BCS – Bachelor of Computer Science' },
+  { value: 'DIT', label: 'DIT – Diploma in Information Technology' },
+  { value: 'DCS', label: 'DCS – Diploma in Computer Science' },
+  { value: 'BRM', label: 'BRM – Bachelor of Records Management' },
+  { value: 'BLS', label: 'BLS – Bachelor of Library Science' },
+  { value: 'DLS', label: 'DLS – Diploma in Library Science' },
+  { value: 'DRM', label: 'DRM – Diploma in Records Management' },
+  { value: 'other', label: 'Other' },
+]
+
+const YEARS = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Graduate / Postgrad']
+
+// ─── STYLES ──────────────────────────────────────────────────────────
+const css = {
+  input: {
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: '8px',
+    padding: '11px 14px',
+    fontSize: '14px',
+    color: '#E8EDF8',
+    outline: 'none',
+    width: '100%',
+    boxSizing: 'border-box',
+    fontFamily: "'DM Sans', sans-serif",
+    transition: 'border-color 0.2s, background 0.2s',
+  },
+}
+
+// ─── PRIMITIVES ───────────────────────────────────────────────────────
 function Field({ label, required, hint, error, children }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-      <label style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(240,244,255,0.7)', letterSpacing: '0.04em' }}>
-        {label} {required && <span style={{ color: '#1A6BFF' }}>*</span>}
-      </label>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+      {label && (
+        <label style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(232,237,248,0.55)', letterSpacing: '0.04em' }}>
+          {label}{required && <span style={{ color: '#3B82F6', marginLeft: 2 }}>*</span>}
+        </label>
+      )}
       {children}
-      {hint && !error && <p style={{ fontSize: '11px', color: 'rgba(240,244,255,0.3)', margin: 0 }}>{hint}</p>}
+      {hint && !error && <p style={{ fontSize: '11px', color: 'rgba(232,237,248,0.28)', margin: 0 }}>{hint}</p>}
       {error && (
-        <p style={{ fontSize: '11px', color: '#F87171', margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <AlertCircle size={11} /> {error}
+        <p style={{ fontSize: '11px', color: '#F87171', margin: 0, display: 'flex', alignItems: 'center', gap: 4 }}>
+          <AlertCircle size={10} /> {error}
         </p>
       )}
     </div>
   )
 }
 
-const inputStyle = {
-  background: 'rgba(10,25,60,0.6)',
-  border: '1px solid rgba(26,107,255,0.18)',
-  borderRadius: '8px',
-  padding: '10px 14px',
-  fontSize: '14px',
-  color: '#F0F4FF',
-  outline: 'none',
-  width: '100%',
-  boxSizing: 'border-box',
-  transition: 'border-color 0.2s',
-  fontFamily: "'DM Sans', sans-serif",
-}
-
-function Input({ value, onChange, placeholder, type = 'text', maxLength, ...rest }) {
+function Input({ type = 'text', value, onChange, placeholder, ...rest }) {
   return (
     <input
-      type={type}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      maxLength={maxLength}
-      style={inputStyle}
-      onFocus={e => e.target.style.borderColor = 'rgba(26,107,255,0.5)'}
-      onBlur={e => e.target.style.borderColor = 'rgba(26,107,255,0.18)'}
+      type={type} value={value} onChange={onChange} placeholder={placeholder}
+      style={css.input}
+      onFocus={e => { e.target.style.borderColor = 'rgba(59,130,246,0.55)'; e.target.style.background = 'rgba(59,130,246,0.06)' }}
+      onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.04)' }}
       {...rest}
     />
   )
 }
 
-function Textarea({ value, onChange, placeholder, rows = 3 }) {
+function Textarea({ value, onChange, placeholder, rows = 4 }) {
   return (
-    <textarea
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      rows={rows}
-      style={{ ...inputStyle, resize: 'vertical', lineHeight: 1.6 }}
-      onFocus={e => e.target.style.borderColor = 'rgba(26,107,255,0.5)'}
-      onBlur={e => e.target.style.borderColor = 'rgba(26,107,255,0.18)'}
+    <textarea value={value} onChange={onChange} placeholder={placeholder} rows={rows}
+      style={{ ...css.input, resize: 'vertical', lineHeight: 1.65 }}
+      onFocus={e => { e.target.style.borderColor = 'rgba(59,130,246,0.55)'; e.target.style.background = 'rgba(59,130,246,0.06)' }}
+      onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.04)' }}
     />
   )
 }
 
 function Select({ value, onChange, children }) {
   return (
-    <select
-      value={value}
-      onChange={onChange}
-      style={{ ...inputStyle, cursor: 'pointer' }}
-      onFocus={e => e.target.style.borderColor = 'rgba(26,107,255,0.5)'}
-      onBlur={e => e.target.style.borderColor = 'rgba(26,107,255,0.18)'}
-    >
-      {children}
-    </select>
+    <>
+      <style>{`
+        select option {
+          background-color: #1a1a2e;
+          color: #E8EDF8;
+          padding: 8px;
+        }
+        select option:checked {
+          background: linear-gradient(#3B82F6, #3B82F6);
+          background-color: #3B82F6;
+          color: white;
+        }
+      `}</style>
+      <select value={value} onChange={onChange}
+        style={{ ...css.input, cursor: 'pointer' }}
+        onFocus={e => { e.target.style.borderColor = 'rgba(59,130,246,0.55)'; e.target.style.background = 'rgba(59,130,246,0.06)' }}
+        onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.04)' }}
+      >
+        {children}
+      </select>
+    </>
   )
 }
 
-// ─── Team member row ─────────────────────────────────────────────────
+function SectionHeading({ children }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '32px 0 20px' }}>
+      <span style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.07)' }} />
+      <p style={{ margin: 0, fontSize: '10px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(232,237,248,0.3)', whiteSpace: 'nowrap' }}>
+        {children}
+      </p>
+      <span style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.07)' }} />
+    </div>
+  )
+}
+
+function Grid2({ children }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+      {children}
+    </div>
+  )
+}
+
+// ─── TRACK SELECTOR ───────────────────────────────────────────────────
+function TrackSelector({ value, onChange, error }) {
+  return (
+    <Field label="Challenge Track" required error={error}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10, marginTop: 2 }}>
+        {TRACKS.map(t => {
+          const active = value === t.value
+          return (
+            <button key={t.value} type="button"
+              onClick={() => onChange(t.value)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '11px 14px', borderRadius: 9, cursor: 'pointer', textAlign: 'left',
+                border: active ? `1.5px solid ${t.color}` : '1px solid rgba(255,255,255,0.08)',
+                background: active ? `${t.color}18` : 'rgba(255,255,255,0.03)',
+                transition: 'all 0.18s',
+              }}
+            >
+              <t.Icon size={16} color={active ? t.color : 'rgba(232,237,248,0.3)'} />
+              <span style={{ fontSize: 13, fontWeight: active ? 600 : 400, color: active ? t.color : 'rgba(232,237,248,0.5)', lineHeight: 1.3 }}>
+                {t.label}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+    </Field>
+  )
+}
+
+// ─── TEAM MEMBER ROW ─────────────────────────────────────────────────
 function TeamMemberRow({ index, member, onChange, onRemove, canRemove }) {
   return (
     <div style={{
-      background: 'rgba(26,107,255,0.04)',
-      border: '1px solid rgba(26,107,255,0.12)',
-      borderRadius: '10px',
-      padding: '14px',
-      display: 'flex',
-      gap: '10px',
-      alignItems: 'flex-start',
+      padding: '16px', borderRadius: 10,
+      border: '1px solid rgba(255,255,255,0.07)',
+      background: 'rgba(255,255,255,0.025)',
+      display: 'flex', flexDirection: 'column', gap: 12,
     }}>
-      <span style={{ fontSize: '11px', fontWeight: 700, color: 'rgba(240,244,255,0.3)', paddingTop: '10px', minWidth: '20px', textAlign: 'center', fontFamily: 'monospace' }}>
-        {String(index + 1).padStart(2, '0')}
-      </span>
-      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-        <Input
-          value={member.name}
-          onChange={e => onChange(index, 'name', e.target.value)}
-          placeholder="Full name"
-        />
-        <Input
-          type="email"
-          value={member.email}
-          onChange={e => onChange(index, 'email', e.target.value)}
-          placeholder="Email address"
-        />
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(232,237,248,0.3)', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
+          MEMBER {String(index + 1).padStart(2, '0')}
+        </span>
+        {canRemove && (
+          <button type="button" onClick={() => onRemove(index)}
+            style={{ background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 6, padding: '5px 8px', cursor: 'pointer', color: '#F87171', display: 'flex', alignItems: 'center', gap: 4, fontSize: 11 }}>
+            <Minus size={11} /> Remove
+          </button>
+        )}
       </div>
-      {canRemove && (
-        <button
-          type="button"
-          onClick={() => onRemove(index)}
-          style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: '7px', padding: '8px', cursor: 'pointer', color: '#F87171', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-        >
-          <Minus size={13} />
-        </button>
-      )}
+      <Grid2>
+        <Field label="Full Name" required>
+          <Input value={member.name} onChange={e => onChange(index, 'name', e.target.value)} placeholder="Full name" />
+        </Field>
+        <Field label="Email Address" required>
+          <Input type="email" value={member.email} onChange={e => onChange(index, 'email', e.target.value)} placeholder="Email address" />
+        </Field>
+        <Field label="Year of Study" required>
+          <Select value={member.year || ''} onChange={e => onChange(index, 'year', e.target.value)}>
+            <option value="">— Year —</option>
+            {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+          </Select>
+        </Field>
+        <Field label="Course" required>
+          <Select value={member.course || ''} onChange={e => onChange(index, 'course', e.target.value)}>
+            <option value="">— Course —</option>
+            {COURSES.map(c => <option key={c.value} value={c.value}>{c.value}</option>)}
+          </Select>
+        </Field>
+      </Grid2>
     </div>
   )
 }
@@ -172,99 +230,80 @@ function HackerForm({ data, setData, errors }) {
   }
   const addMember = () => {
     if (data.teamMembers.length < 4)
-      setData({ ...data, teamMembers: [...data.teamMembers, { name: '', email: '' }] })
+      setData({ ...data, teamMembers: [...data.teamMembers, { name: '', email: '', year: '', course: '' }] })
   }
-  const removeMember = i => {
-    setData({ ...data, teamMembers: data.teamMembers.filter((_, idx) => idx !== i) })
-  }
+  const removeMember = i => setData({ ...data, teamMembers: data.teamMembers.filter((_, idx) => idx !== i) })
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
-      <SectionLabel>Project Details</SectionLabel>
+    <div>
+      <SectionHeading>Project Details</SectionHeading>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <Field label="Project Name" required error={errors.projectName}>
+          <Input value={data.projectName} onChange={e => setData({ ...data, projectName: e.target.value })} placeholder="e.g. AgroSense AI" />
+        </Field>
 
-      <Field label="Project Name" required error={errors.projectName}>
-        <Input value={data.projectName} onChange={e => setData({ ...data, projectName: e.target.value })} placeholder="e.g. AgroSense AI" />
-      </Field>
+        <TrackSelector value={data.track} onChange={v => setData({ ...data, track: v })} error={errors.track} />
 
-      <Field label="Challenge Track" required error={errors.track}>
-        <Select value={data.track} onChange={e => setData({ ...data, track: e.target.value })}>
-          <option value="">— Select a track —</option>
-          <option value="climate">🌿 Climate-Smart Agriculture</option>
-          <option value="health">🏥 Inclusive Health</option>
-          <option value="education">📚 Inclusive Education</option>
-          <option value="economic">💼 Economic Empowerment</option>
-        </Select>
-      </Field>
+        <Field label="Problem Statement" required hint="Describe the specific problem your project addresses (50–300 words)" error={errors.problemStatement}>
+          <Textarea value={data.problemStatement} onChange={e => setData({ ...data, problemStatement: e.target.value })}
+            placeholder="What problem are you solving? Who is affected? Why does it matter?" rows={4} />
+        </Field>
 
-      <Field label="Problem Statement" required hint="Describe the specific problem your project solves (50–300 words)" error={errors.problemStatement}>
-        <Textarea
-          value={data.problemStatement}
-          onChange={e => setData({ ...data, problemStatement: e.target.value })}
-          placeholder="What problem are you solving? Who is affected? Why does it matter?"
-          rows={4}
-        />
-      </Field>
+        <Field label="Proposed Solution" required hint="How does your project solve this problem?" error={errors.solution}>
+          <Textarea value={data.solution} onChange={e => setData({ ...data, solution: e.target.value })}
+            placeholder="Describe your solution, the technology you'll use, and how it addresses the problem." rows={4} />
+        </Field>
 
-      <Field label="Community Impact" required hint="How will your solution benefit communities in Uganda?" error={errors.impact}>
-        <Textarea
-          value={data.impact}
-          onChange={e => setData({ ...data, impact: e.target.value })}
-          placeholder="Describe the expected impact and who will benefit most from your solution."
-          rows={3}
-        />
-      </Field>
+        <Field label="Community Impact" required hint="How will your solution benefit communities in Uganda?" error={errors.impact}>
+          <Textarea value={data.impact} onChange={e => setData({ ...data, impact: e.target.value })}
+            placeholder="Describe the expected impact and who will benefit most." rows={3} />
+        </Field>
+      </div>
 
-      <div style={{ height: '1px', background: 'rgba(26,107,255,0.1)' }} />
-      <SectionLabel>Team Members <span style={{ fontSize: '11px', fontWeight: 400, color: 'rgba(240,244,255,0.35)' }}>({data.teamMembers.length}/4 members)</span></SectionLabel>
-
+      <SectionHeading>Team Members — {data.teamMembers.length}/4</SectionHeading>
       {errors.teamMembers && (
-        <p style={{ fontSize: '12px', color: '#F87171', margin: 0, display: 'flex', alignItems: 'center', gap: '5px' }}>
+        <p style={{ fontSize: 12, color: '#F87171', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 5 }}>
           <AlertCircle size={12} /> {errors.teamMembers}
         </p>
       )}
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {data.teamMembers.map((m, i) => (
           <TeamMemberRow key={i} index={i} member={m} onChange={updateMember} onRemove={removeMember} canRemove={i > 0} />
         ))}
+        {data.teamMembers.length < 4 && (
+          <button type="button" onClick={addMember}
+            style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(59,130,246,0.07)', border: '1px dashed rgba(59,130,246,0.3)', borderRadius: 9, padding: '11px 16px', color: '#3B82F6', fontSize: 13, fontWeight: 600, cursor: 'pointer', width: 'fit-content' }}>
+            <Plus size={14} /> Add Team Member
+          </button>
+        )}
       </div>
 
-      {data.teamMembers.length < 4 && (
-        <button
-          type="button"
-          onClick={addMember}
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(26,107,255,0.08)', border: '1px dashed rgba(26,107,255,0.25)', borderRadius: '10px', padding: '10px 16px', color: '#1A6BFF', fontSize: '13px', fontWeight: 600, cursor: 'pointer', width: 'fit-content' }}
-        >
-          <Plus size={14} /> Add team member
-        </button>
-      )}
-
-      <div style={{ height: '1px', background: 'rgba(26,107,255,0.1)' }} />
-      <SectionLabel>Team Leader Contact</SectionLabel>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-        <Field label="Full Name" required error={errors.leaderName}>
-          <Input value={data.leaderName} onChange={e => setData({ ...data, leaderName: e.target.value })} placeholder="Your full name" />
-        </Field>
-        <Field label="Phone Number" required error={errors.phone}>
-          <Input value={data.phone} onChange={e => setData({ ...data, phone: e.target.value })} placeholder="+256 700 000000" />
-        </Field>
+      <SectionHeading>Team Leader Contact</SectionHeading>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <Grid2>
+          <Field label="Full Name" required error={errors.leaderName}>
+            <Input value={data.leaderName} onChange={e => setData({ ...data, leaderName: e.target.value })} placeholder="Your full name" />
+          </Field>
+          <Field label="Phone Number" required error={errors.phone}>
+            <Input value={data.phone} onChange={e => setData({ ...data, phone: e.target.value })} placeholder="+256 700 000000" />
+          </Field>
+        </Grid2>
+        <Grid2>
+          <Field label="University / Institution" required error={errors.university}>
+            <Input value={data.university} onChange={e => setData({ ...data, university: e.target.value })} placeholder="e.g. Kabale University" />
+          </Field>
+          <Field label="How did you hear about us?" hint="Optional">
+            <Select value={data.referral} onChange={e => setData({ ...data, referral: e.target.value })}>
+              <option value="">— Select —</option>
+              <option value="social">Social media</option>
+              <option value="friend">Friend / colleague</option>
+              <option value="university">University notice board</option>
+              <option value="lecturer">Lecturer / staff</option>
+              <option value="other">Other</option>
+            </Select>
+          </Field>
+        </Grid2>
       </div>
-
-      <Field label="University / Institution" required error={errors.university}>
-        <Input value={data.university} onChange={e => setData({ ...data, university: e.target.value })} placeholder="e.g. Kabale University" />
-      </Field>
-
-      <Field label="How did you hear about us?" hint="Optional">
-        <Select value={data.referral} onChange={e => setData({ ...data, referral: e.target.value })}>
-          <option value="">— Select —</option>
-          <option value="social">Social media</option>
-          <option value="friend">Friend / colleague</option>
-          <option value="university">University notice board</option>
-          <option value="lecturer">Lecturer / staff</option>
-          <option value="other">Other</option>
-        </Select>
-      </Field>
     </div>
   )
 }
@@ -272,40 +311,49 @@ function HackerForm({ data, setData, errors }) {
 // ─── ATTENDEE FORM ───────────────────────────────────────────────────
 function AttendeeForm({ data, setData, errors }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
-      <SectionLabel>Personal Information</SectionLabel>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-        <Field label="First Name" required error={errors.firstName}>
-          <Input value={data.firstName} onChange={e => setData({ ...data, firstName: e.target.value })} placeholder="First name" />
+    <div>
+      <SectionHeading>Personal Information</SectionHeading>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <Grid2>
+          <Field label="First Name" required error={errors.firstName}>
+            <Input value={data.firstName} onChange={e => setData({ ...data, firstName: e.target.value })} placeholder="First name" />
+          </Field>
+          <Field label="Last Name" required error={errors.lastName}>
+            <Input value={data.lastName} onChange={e => setData({ ...data, lastName: e.target.value })} placeholder="Last name" />
+          </Field>
+        </Grid2>
+        <Grid2>
+          <Field label="Email Address" required error={errors.email}>
+            <Input type="email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} placeholder="you@example.com" />
+          </Field>
+          <Field label="Phone Number" error={errors.phone}>
+            <Input value={data.phone} onChange={e => setData({ ...data, phone: e.target.value })} placeholder="+256 700 000000" />
+          </Field>
+        </Grid2>
+        <Grid2>
+          <Field label="University / Organisation" required error={errors.org}>
+            <Input value={data.org} onChange={e => setData({ ...data, org: e.target.value })} placeholder="Your university or workplace" />
+          </Field>
+          <Field label="Course" error={errors.course}>
+            <Select value={data.course} onChange={e => setData({ ...data, course: e.target.value })}>
+              <option value="">— Select course —</option>
+              {COURSES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+            </Select>
+          </Field>
+        </Grid2>
+        <Field label="Year of Study / Role" error={errors.year}>
+          <Select value={data.year} onChange={e => setData({ ...data, year: e.target.value })}>
+            <option value="">— Select —</option>
+            {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+            <option value="professional">Working Professional</option>
+            <option value="other">Other</option>
+          </Select>
         </Field>
-        <Field label="Last Name" required error={errors.lastName}>
-          <Input value={data.lastName} onChange={e => setData({ ...data, lastName: e.target.value })} placeholder="Last name" />
+        <Field label="Why do you want to attend?" hint="Optional — helps us plan sessions">
+          <Textarea value={data.reason} onChange={e => setData({ ...data, reason: e.target.value })}
+            placeholder="What do you hope to learn or gain from FoCLIS Hackathon?" rows={3} />
         </Field>
       </div>
-      <Field label="Email Address" required error={errors.email}>
-        <Input type="email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} placeholder="you@example.com" />
-      </Field>
-      <Field label="Phone Number" error={errors.phone}>
-        <Input value={data.phone} onChange={e => setData({ ...data, phone: e.target.value })} placeholder="+256 700 000000" />
-      </Field>
-      <Field label="University / Organisation" required error={errors.org}>
-        <Input value={data.org} onChange={e => setData({ ...data, org: e.target.value })} placeholder="Your university or workplace" />
-      </Field>
-      <Field label="Year of Study / Role" error={errors.year}>
-        <Select value={data.year} onChange={e => setData({ ...data, year: e.target.value })}>
-          <option value="">— Select —</option>
-          <option value="y1">Year 1</option>
-          <option value="y2">Year 2</option>
-          <option value="y3">Year 3</option>
-          <option value="y4">Year 4</option>
-          <option value="graduate">Graduate / Postgrad</option>
-          <option value="professional">Working Professional</option>
-          <option value="other">Other</option>
-        </Select>
-      </Field>
-      <Field label="Why do you want to attend?" hint="Optional — helps us plan sessions">
-        <Textarea value={data.reason} onChange={e => setData({ ...data, reason: e.target.value })} placeholder="What do you hope to learn or gain from FoCLIS Hackathon?" />
-      </Field>
     </div>
   )
 }
@@ -313,55 +361,64 @@ function AttendeeForm({ data, setData, errors }) {
 // ─── SPONSOR FORM ────────────────────────────────────────────────────
 function SponsorForm({ data, setData, errors }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
-      <SectionLabel>Organisation Details</SectionLabel>
-      <Field label="Organisation Name" required error={errors.orgName}>
-        <Input value={data.orgName} onChange={e => setData({ ...data, orgName: e.target.value })} placeholder="e.g. Acme Technologies Ltd" />
-      </Field>
-      <Field label="Organisation Website" error={errors.website}>
-        <Input value={data.website} onChange={e => setData({ ...data, website: e.target.value })} placeholder="https://yourorg.com" />
-      </Field>
-      <Field label="Sector / Industry" required error={errors.sector}>
-        <Select value={data.sector} onChange={e => setData({ ...data, sector: e.target.value })}>
-          <option value="">— Select —</option>
-          <option value="tech">Technology</option>
-          <option value="finance">Finance / Banking</option>
-          <option value="health">Healthcare</option>
-          <option value="agri">Agriculture</option>
-          <option value="education">Education</option>
-          <option value="ngo">NGO / Nonprofit</option>
-          <option value="govt">Government</option>
-          <option value="other">Other</option>
-        </Select>
-      </Field>
-      <div style={{ height: '1px', background: 'rgba(26,107,255,0.1)' }} />
-      <SectionLabel>Contact Person</SectionLabel>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-        <Field label="Full Name" required error={errors.contactName}>
-          <Input value={data.contactName} onChange={e => setData({ ...data, contactName: e.target.value })} placeholder="Contact person name" />
-        </Field>
-        <Field label="Job Title" error={errors.jobTitle}>
-          <Input value={data.jobTitle} onChange={e => setData({ ...data, jobTitle: e.target.value })} placeholder="e.g. Partnerships Manager" />
+    <div>
+      <SectionHeading>Organisation Details</SectionHeading>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <Grid2>
+          <Field label="Organisation Name" required error={errors.orgName}>
+            <Input value={data.orgName} onChange={e => setData({ ...data, orgName: e.target.value })} placeholder="e.g. Acme Technologies Ltd" />
+          </Field>
+          <Field label="Organisation Website" error={errors.website}>
+            <Input value={data.website} onChange={e => setData({ ...data, website: e.target.value })} placeholder="https://yourorg.com" />
+          </Field>
+        </Grid2>
+        <Field label="Sector / Industry" required error={errors.sector}>
+          <Select value={data.sector} onChange={e => setData({ ...data, sector: e.target.value })}>
+            <option value="">— Select —</option>
+            <option value="tech">Technology</option>
+            <option value="finance">Finance / Banking</option>
+            <option value="health">Healthcare</option>
+            <option value="agri">Agriculture</option>
+            <option value="education">Education</option>
+            <option value="ngo">NGO / Nonprofit</option>
+            <option value="govt">Government</option>
+            <option value="other">Other</option>
+          </Select>
         </Field>
       </div>
-      <Field label="Email Address" required error={errors.email}>
-        <Input type="email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} placeholder="contact@yourorg.com" />
-      </Field>
-      <Field label="Phone Number" error={errors.phone}>
-        <Input value={data.phone} onChange={e => setData({ ...data, phone: e.target.value })} placeholder="+256 700 000000" />
-      </Field>
-      <Field label="Sponsorship Interest" required error={errors.tier}>
-        <Select value={data.tier} onChange={e => setData({ ...data, tier: e.target.value })}>
-          <option value="">— Select sponsorship tier —</option>
-          <option value="gold">Gold Partner</option>
-          <option value="silver">Silver Partner</option>
-          <option value="bronze">Bronze Partner</option>
-          <option value="custom">Custom / In-kind support</option>
-        </Select>
-      </Field>
-      <Field label="Message / Special Requests" hint="Optional">
-        <Textarea value={data.message} onChange={e => setData({ ...data, message: e.target.value })} placeholder="Any questions, custom requests, or ideas for collaboration?" />
-      </Field>
+
+      <SectionHeading>Contact Person</SectionHeading>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <Grid2>
+          <Field label="Full Name" required error={errors.contactName}>
+            <Input value={data.contactName} onChange={e => setData({ ...data, contactName: e.target.value })} placeholder="Contact person name" />
+          </Field>
+          <Field label="Job Title" error={errors.jobTitle}>
+            <Input value={data.jobTitle} onChange={e => setData({ ...data, jobTitle: e.target.value })} placeholder="e.g. Partnerships Manager" />
+          </Field>
+        </Grid2>
+        <Grid2>
+          <Field label="Email Address" required error={errors.email}>
+            <Input type="email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} placeholder="contact@yourorg.com" />
+          </Field>
+          <Field label="Phone Number" error={errors.phone}>
+            <Input value={data.phone} onChange={e => setData({ ...data, phone: e.target.value })} placeholder="+256 700 000000" />
+          </Field>
+        </Grid2>
+        <Field label="Sponsorship Interest" required error={errors.tier}>
+          <Select value={data.tier} onChange={e => setData({ ...data, tier: e.target.value })}>
+            <option value="">— Select sponsorship tier —</option>
+            <option value="gold">Gold Partner</option>
+            <option value="silver">Silver Partner</option>
+            <option value="bronze">Bronze Partner</option>
+            <option value="custom">Custom / In-kind support</option>
+          </Select>
+        </Field>
+        <Field label="Message / Special Requests" hint="Optional">
+          <Textarea value={data.message} onChange={e => setData({ ...data, message: e.target.value })}
+            placeholder="Any questions, custom requests, or ideas for collaboration?" rows={3} />
+        </Field>
+      </div>
     </div>
   )
 }
@@ -369,74 +426,75 @@ function SponsorForm({ data, setData, errors }) {
 // ─── LECTURER FORM ───────────────────────────────────────────────────
 function LecturerForm({ data, setData, errors }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
-      <SectionLabel>Personal Information</SectionLabel>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-        <Field label="First Name" required error={errors.firstName}>
-          <Input value={data.firstName} onChange={e => setData({ ...data, firstName: e.target.value })} placeholder="First name" />
-        </Field>
-        <Field label="Last Name" required error={errors.lastName}>
-          <Input value={data.lastName} onChange={e => setData({ ...data, lastName: e.target.value })} placeholder="Last name" />
+    <div>
+      <SectionHeading>Personal Information</SectionHeading>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <Grid2>
+          <Field label="First Name" required error={errors.firstName}>
+            <Input value={data.firstName} onChange={e => setData({ ...data, firstName: e.target.value })} placeholder="First name" />
+          </Field>
+          <Field label="Last Name" required error={errors.lastName}>
+            <Input value={data.lastName} onChange={e => setData({ ...data, lastName: e.target.value })} placeholder="Last name" />
+          </Field>
+        </Grid2>
+        <Grid2>
+          <Field label="Email Address" required error={errors.email}>
+            <Input type="email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} placeholder="you@institution.ac.ug" />
+          </Field>
+          <Field label="Phone Number" error={errors.phone}>
+            <Input value={data.phone} onChange={e => setData({ ...data, phone: e.target.value })} placeholder="+256 700 000000" />
+          </Field>
+        </Grid2>
+        <Grid2>
+          <Field label="Institution / Organisation" required error={errors.institution}>
+            <Input value={data.institution} onChange={e => setData({ ...data, institution: e.target.value })} placeholder="e.g. Kabale University" />
+          </Field>
+          <Field label="Department / Faculty" error={errors.department}>
+            <Input value={data.department} onChange={e => setData({ ...data, department: e.target.value })} placeholder="e.g. Faculty of Computing & IS" />
+          </Field>
+        </Grid2>
+        <Grid2>
+          <Field label="Role" required error={errors.role}>
+            <Select value={data.role} onChange={e => setData({ ...data, role: e.target.value })}>
+              <option value="">— Select your role —</option>
+              <option value="judge">Judge</option>
+              <option value="mentor">Mentor / Coach</option>
+              <option value="speaker">Speaker</option>
+              <option value="volunteer">Volunteer Organizer</option>
+              <option value="both">Mentor + Judge</option>
+            </Select>
+          </Field>
+          <Field label="Area of Expertise" required error={errors.expertise}>
+            <Select value={data.expertise} onChange={e => setData({ ...data, expertise: e.target.value })}>
+              <option value="">— Select —</option>
+              <option value="ai_ml">AI & Machine Learning</option>
+              <option value="web">Web / Mobile Development</option>
+              <option value="agri">AgriTech</option>
+              <option value="health">HealthTech</option>
+              <option value="fintech">Fintech</option>
+              <option value="edtech">EdTech</option>
+              <option value="business">Business & Entrepreneurship</option>
+              <option value="other">Other</option>
+            </Select>
+          </Field>
+        </Grid2>
+        <Field label="Brief Bio" hint="Will appear on the website if selected as a speaker or judge">
+          <Textarea value={data.bio} onChange={e => setData({ ...data, bio: e.target.value })}
+            placeholder="Short professional bio (2–3 sentences)" rows={3} />
         </Field>
       </div>
-      <Field label="Email Address" required error={errors.email}>
-        <Input type="email" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} placeholder="you@institution.ac.ug" />
-      </Field>
-      <Field label="Phone Number" error={errors.phone}>
-        <Input value={data.phone} onChange={e => setData({ ...data, phone: e.target.value })} placeholder="+256 700 000000" />
-      </Field>
-      <Field label="Institution / Organisation" required error={errors.institution}>
-        <Input value={data.institution} onChange={e => setData({ ...data, institution: e.target.value })} placeholder="e.g. Kabale University" />
-      </Field>
-      <Field label="Department / Faculty" error={errors.department}>
-        <Input value={data.department} onChange={e => setData({ ...data, department: e.target.value })} placeholder="e.g. Faculty of Computing & IS" />
-      </Field>
-      <Field label="Role" required error={errors.role}>
-        <Select value={data.role} onChange={e => setData({ ...data, role: e.target.value })}>
-          <option value="">— Select your role —</option>
-          <option value="judge">Judge</option>
-          <option value="mentor">Mentor / Coach</option>
-          <option value="speaker">Speaker</option>
-          <option value="volunteer">Volunteer Organizer</option>
-          <option value="both">Mentor + Judge</option>
-        </Select>
-      </Field>
-      <Field label="Area of Expertise" required error={errors.expertise}>
-        <Select value={data.expertise} onChange={e => setData({ ...data, expertise: e.target.value })}>
-          <option value="">— Select —</option>
-          <option value="ai_ml">AI & Machine Learning</option>
-          <option value="web">Web / Mobile Development</option>
-          <option value="agri">AgriTech</option>
-          <option value="health">HealthTech</option>
-          <option value="fintech">Fintech</option>
-          <option value="edtech">EdTech</option>
-          <option value="business">Business & Entrepreneurship</option>
-          <option value="other">Other</option>
-        </Select>
-      </Field>
-      <Field label="Brief Bio" hint="Will appear on the website if selected as a speaker/judge">
-        <Textarea value={data.bio} onChange={e => setData({ ...data, bio: e.target.value })} placeholder="Short professional bio (2–3 sentences)" rows={3} />
-      </Field>
     </div>
-  )
-}
-
-function SectionLabel({ children }) {
-  return (
-    <p style={{ margin: 0, fontSize: '11px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(240,244,255,0.3)' }}>
-      {children}
-    </p>
   )
 }
 
 // ─── DEFAULT DATA ────────────────────────────────────────────────────
 const defaultData = {
   hacker: {
-    projectName: '', track: '', problemStatement: '', impact: '',
-    teamMembers: [{ name: '', email: '' }],
+    projectName: '', track: '', problemStatement: '', solution: '', impact: '',
+    teamMembers: [{ name: '', email: '', year: '', course: '' }],
     leaderName: '', phone: '', university: '', referral: '',
   },
-  attendee: { firstName: '', lastName: '', email: '', phone: '', org: '', year: '', reason: '' },
+  attendee: { firstName: '', lastName: '', email: '', phone: '', org: '', course: '', year: '', reason: '' },
   sponsor: { orgName: '', website: '', sector: '', contactName: '', jobTitle: '', email: '', phone: '', tier: '', message: '' },
   lecturer: { firstName: '', lastName: '', email: '', phone: '', institution: '', department: '', role: '', expertise: '', bio: '' },
 }
@@ -448,7 +506,8 @@ function validate(role, data) {
     if (!data.projectName.trim()) e.projectName = 'Project name is required'
     if (!data.track) e.track = 'Please select a challenge track'
     if (!data.problemStatement.trim()) e.problemStatement = 'Problem statement is required'
-    if (data.problemStatement.trim().split(' ').length < 10) e.problemStatement = 'Please write at least 10 words'
+    else if (data.problemStatement.trim().split(/\s+/).length < 10) e.problemStatement = 'Please write at least 10 words'
+    if (!data.solution.trim()) e.solution = 'Proposed solution is required'
     if (!data.impact.trim()) e.impact = 'Community impact is required'
     if (!data.leaderName.trim()) e.leaderName = 'Team leader name is required'
     if (!data.phone.trim()) e.phone = 'Phone number is required'
@@ -484,7 +543,7 @@ export default function RegisterPage() {
   const [activeRole, setActiveRole] = useState('hacker')
   const [formData, setFormData] = useState(defaultData)
   const [errors, setErrors] = useState({})
-  const [status, setStatus] = useState('idle') // idle | submitting | success | error
+  const [status, setStatus] = useState('idle') // idle | submitting | success | closed | error
 
   const role = ROLES.find(r => r.id === activeRole)
   const data = formData[activeRole]
@@ -496,14 +555,20 @@ export default function RegisterPage() {
     setErrors({})
     setStatus('submitting')
 
-    // Registration is currently closed — no backend submission yet
-    // When backend is ready, replace with:
-    // const endpoint = import.meta.env.VITE_API_URL + '/api/register'
-    // await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ role: activeRole, ...data }) })
+    try {
+      const res = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role: activeRole, ...data, submittedAt: new Date().toISOString() }),
+      })
 
-    setTimeout(() => {
-      setStatus('closed') // Change to 'success' when backend is connected
-    }, 1000)
+      if (!res.ok) throw new Error('Server error')
+      setStatus('success')
+    } catch {
+      // Backend not yet connected — show closed screen
+      // Change setStatus('closed') → setStatus('success') once backend is live
+      setTimeout(() => setStatus('closed'), 500)
+    }
   }
 
   if (status === 'success') return <SuccessScreen role={role} />
@@ -514,119 +579,100 @@ export default function RegisterPage() {
       <Navbar />
       <main style={{
         minHeight: '100vh',
-        background: 'linear-gradient(160deg, #020B1E 0%, #030D26 40%, #020B1E 100%)',
-        paddingTop: '100px',
+        background: 'linear-gradient(175deg, #050A18 0%, #080E20 50%, #060C1A 100%)',
+        paddingTop: '88px',
         paddingBottom: '80px',
       }}>
-        {/* Subtle grid texture */}
+        {/* Dot grid background */}
         <div style={{
           position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(26,107,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(26,107,255,0.04) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
+          backgroundImage: 'radial-gradient(circle, rgba(59,130,246,0.07) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
         }} />
+        {/* Glow blobs */}
+        <div style={{ position: 'fixed', top: '10%', left: '5%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)', zIndex: 0, pointerEvents: 'none' }} />
+        <div style={{ position: 'fixed', bottom: '10%', right: '5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 70%)', zIndex: 0, pointerEvents: 'none' }} />
 
-        <div style={{ maxWidth: '680px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 28px', position: 'relative', zIndex: 1 }}>
 
-          {/* Page header */}
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#1A6BFF', marginBottom: '10px' }}>
+          {/* ─ Page Header ─ */}
+          <div style={{ marginBottom: '44px' }}>
+            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#3B82F6', margin: '0 0 10px' }}>
               FoCLIS Hackathon 2026
             </p>
-            <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 700, color: '#F0F4FF', margin: '0 0 12px', lineHeight: 1.1 }}>
-              Register for the <span style={{ color: '#1A6BFF' }}>Hackathon</span>
+            <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 800, color: '#E8EDF8', margin: '0 0 10px', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
+              Register for the Hackathon
             </h1>
-            <p style={{ fontSize: '15px', color: 'rgba(240,244,255,0.45)', margin: 0 }}>
-              Choose your role below and fill in your details.
+            <p style={{ fontSize: '15px', color: 'rgba(232,237,248,0.4)', margin: 0 }}>
+              Choose your participation role and complete the form below.
             </p>
           </div>
 
-          {/* Role selector */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '36px' }}>
+          {/* ─ Role Tabs ─ */}
+          <div style={{
+            display: 'flex', gap: 6,
+            borderBottom: '1px solid rgba(255,255,255,0.07)',
+            marginBottom: '40px', flexWrap: 'wrap',
+          }}>
             {ROLES.map(r => {
               const Icon = r.icon
               const isActive = activeRole === r.id
               return (
-                <button
-                  key={r.id}
-                  onClick={() => { setActiveRole(r.id); setErrors({}); setStatus('idle') }}
+                <button key={r.id}
+                  onClick={() => { setActiveRole(r.id); setErrors({}) }}
                   style={{
-                    padding: '14px 10px',
-                    borderRadius: '12px',
-                    border: isActive ? `1.5px solid ${r.color}` : '1px solid rgba(26,107,255,0.12)',
-                    background: isActive ? r.colorBg : 'rgba(10,25,60,0.4)',
-                    cursor: 'pointer',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '7px',
-                    transition: 'all 0.2s ease',
+                    display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px',
+                    borderRadius: '8px 8px 0 0',
+                    border: 'none',
+                    borderBottom: isActive ? `2px solid ${r.color}` : '2px solid transparent',
+                    background: isActive ? `${r.color}12` : 'transparent',
+                    cursor: 'pointer', marginBottom: -1,
+                    transition: 'all 0.18s',
                   }}
                 >
-                  <Icon size={18} color={isActive ? r.color : 'rgba(240,244,255,0.35)'} />
-                  <span style={{ fontSize: '12px', fontWeight: 700, color: isActive ? r.color : 'rgba(240,244,255,0.5)', lineHeight: 1.2, textAlign: 'center' }}>
+                  <Icon size={15} color={isActive ? r.color : 'rgba(232,237,248,0.3)'} />
+                  <span style={{ fontSize: 13, fontWeight: isActive ? 700 : 500, color: isActive ? r.color : 'rgba(232,237,248,0.4)', whiteSpace: 'nowrap' }}>
                     {r.label}
-                  </span>
-                  <span style={{ fontSize: '10px', color: 'rgba(240,244,255,0.3)', textAlign: 'center', lineHeight: 1.3 }}>
-                    {r.sub}
                   </span>
                 </button>
               )
             })}
           </div>
 
-          {/* Form card */}
-          <div style={{
-            background: 'rgba(8,20,52,0.7)',
-            border: `1px solid ${role.colorBorder}`,
-            borderRadius: '18px',
-            padding: '36px',
-            backdropFilter: 'blur(20px)',
-          }}>
-            {/* Form header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px', paddingBottom: '20px', borderBottom: '1px solid rgba(26,107,255,0.1)' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: role.colorBg, border: `1px solid ${role.colorBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <role.icon size={18} color={role.color} />
-              </div>
-              <div>
-                <p style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#F0F4FF', fontFamily: "'Syne', sans-serif" }}>
-                  {role.label} Registration
-                </p>
-                <p style={{ margin: 0, fontSize: '12px', color: 'rgba(240,244,255,0.4)' }}>
-                  {role.sub}
-                </p>
-              </div>
-            </div>
+          {/* ─ Form Body ─ */}
+          {activeRole === 'hacker'   && <HackerForm   data={data} setData={setData} errors={errors} />}
+          {activeRole === 'attendee' && <AttendeeForm  data={data} setData={setData} errors={errors} />}
+          {activeRole === 'sponsor'  && <SponsorForm   data={data} setData={setData} errors={errors} />}
+          {activeRole === 'lecturer' && <LecturerForm  data={data} setData={setData} errors={errors} />}
 
-            {/* Dynamic form */}
-            {activeRole === 'hacker'   && <HackerForm   data={data} setData={setData} errors={errors} />}
-            {activeRole === 'attendee' && <AttendeeForm  data={data} setData={setData} errors={errors} />}
-            {activeRole === 'sponsor'  && <SponsorForm   data={data} setData={setData} errors={errors} />}
-            {activeRole === 'lecturer' && <LecturerForm  data={data} setData={setData} errors={errors} />}
-
-            {/* Submit */}
-            <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid rgba(26,107,255,0.1)' }}>
-              <button
-                onClick={handleSubmit}
-                disabled={status === 'submitting'}
-                style={{
-                  width: '100%', padding: '14px 24px',
-                  background: role.color, color: '#fff',
-                  border: 'none', borderRadius: '10px',
-                  fontSize: '15px', fontWeight: 700,
-                  cursor: status === 'submitting' ? 'not-allowed' : 'pointer',
-                  opacity: status === 'submitting' ? 0.7 : 1,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                  transition: 'opacity 0.2s',
-                  fontFamily: "'Syne', sans-serif",
-                  letterSpacing: '0.02em',
-                }}
-              >
-                {status === 'submitting' ? 'Submitting...' : (
-                  <>Submit Application <ChevronRight size={16} /></>
-                )}
-              </button>
-              <p style={{ textAlign: 'center', fontSize: '11px', color: 'rgba(240,244,255,0.25)', marginTop: '12px', margin: '12px 0 0' }}>
-                Your data is secure and will only be used for FoCLIS Hackathon 2026
-              </p>
-            </div>
+          {/* ─ Submit ─ */}
+          <div style={{ marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 14 }}>
+            <button
+              onClick={handleSubmit}
+              disabled={status === 'submitting'}
+              style={{
+                padding: '13px 32px',
+                background: role.color,
+                color: '#fff', border: 'none',
+                borderRadius: '9px',
+                fontSize: '15px', fontWeight: 700,
+                cursor: status === 'submitting' ? 'not-allowed' : 'pointer',
+                opacity: status === 'submitting' ? 0.7 : 1,
+                display: 'flex', alignItems: 'center', gap: 8,
+                transition: 'opacity 0.2s, transform 0.15s',
+                fontFamily: "'Syne', sans-serif",
+                letterSpacing: '0.01em',
+              }}
+              onMouseEnter={e => { if (status !== 'submitting') e.target.style.transform = 'translateY(-1px)' }}
+              onMouseLeave={e => { e.target.style.transform = 'none' }}
+            >
+              {status === 'submitting' ? 'Submitting…' : <> Submit Application <ChevronRight size={16} /> </>}
+            </button>
+            <p style={{ fontSize: '11px', color: 'rgba(232,237,248,0.2)', margin: 0 }}>
+              Fields marked <span style={{ color: '#3B82F6' }}>*</span> are required · Your data is secure and used only for FoCLIS Hackathon 2026
+            </p>
           </div>
+
         </div>
       </main>
       <Footer />
@@ -634,26 +680,26 @@ export default function RegisterPage() {
   )
 }
 
-// ─── REGISTRATION CLOSED SCREEN ──────────────────────────────────────
+// ─── REGISTRATION CLOSED ─────────────────────────────────────────────
 function ClosedScreen() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: '#020B1E', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '80px' }}>
-        <div style={{ textAlign: 'center', padding: '0 24px', maxWidth: '480px' }}>
-          <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'rgba(26,107,255,0.1)', border: '1px solid rgba(26,107,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-            <Lock size={28} color="#1A6BFF" />
+      <main style={{ minHeight: '100vh', background: '#050A18', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '80px' }}>
+        <div style={{ textAlign: 'center', padding: '0 24px', maxWidth: '440px' }}>
+          <div style={{ width: 60, height: 60, borderRadius: 14, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+            <Lock size={26} color="#3B82F6" />
           </div>
-          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: '28px', fontWeight: 700, color: '#F0F4FF', margin: '0 0 12px' }}>
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 800, color: '#E8EDF8', margin: '0 0 10px' }}>
             Registration Not Open Yet
           </h2>
-          <p style={{ fontSize: '15px', color: 'rgba(240,244,255,0.45)', margin: '0 0 8px' }}>
+          <p style={{ fontSize: 15, color: 'rgba(232,237,248,0.45)', margin: '0 0 6px' }}>
             Applications open on <strong style={{ color: '#F59E0B' }}>June 6, 2026</strong>.
           </p>
-          <p style={{ fontSize: '13px', color: 'rgba(240,244,255,0.3)', margin: '0 0 28px' }}>
+          <p style={{ fontSize: 13, color: 'rgba(232,237,248,0.28)', margin: '0 0 28px' }}>
             Follow us on social media or check back closer to the date.
           </p>
-          <a href="/" style={{ padding: '10px 24px', background: '#1A6BFF', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+          <a href="/" style={{ padding: '11px 26px', background: '#3B82F6', color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
             Back to Home
           </a>
         </div>
@@ -663,23 +709,23 @@ function ClosedScreen() {
   )
 }
 
-// ─── SUCCESS SCREEN ───────────────────────────────────────────────────
+// ─── SUCCESS ─────────────────────────────────────────────────────────
 function SuccessScreen({ role }) {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: '#020B1E', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '80px' }}>
-        <div style={{ textAlign: 'center', padding: '0 24px', maxWidth: '480px' }}>
-          <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-            <CheckCircle2 size={28} color="#22C55E" />
+      <main style={{ minHeight: '100vh', background: '#050A18', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '80px' }}>
+        <div style={{ textAlign: 'center', padding: '0 24px', maxWidth: '440px' }}>
+          <div style={{ width: 60, height: 60, borderRadius: '50%', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+            <CheckCircle2 size={28} color="#10B981" />
           </div>
-          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: '28px', fontWeight: 700, color: '#F0F4FF', margin: '0 0 12px' }}>
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 800, color: '#E8EDF8', margin: '0 0 10px' }}>
             Application Submitted!
           </h2>
-          <p style={{ fontSize: '15px', color: 'rgba(240,244,255,0.45)', margin: '0 0 28px' }}>
+          <p style={{ fontSize: 15, color: 'rgba(232,237,248,0.45)', margin: '0 0 28px' }}>
             Thanks for registering as a <strong style={{ color: role.color }}>{role.label}</strong>. We'll be in touch via email soon.
           </p>
-          <a href="/" style={{ padding: '10px 24px', background: '#1A6BFF', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+          <a href="/" style={{ padding: '11px 26px', background: '#3B82F6', color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
             Back to Home
           </a>
         </div>

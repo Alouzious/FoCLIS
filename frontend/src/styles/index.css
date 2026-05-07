@@ -149,8 +149,8 @@
 
 .navbar-logo-name {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.9rem;
+  font-weight: 900;
+  font-size: 1.2rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--clr-ink);
@@ -159,11 +159,12 @@
 
 .navbar-logo-sub {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--clr-accent);
   line-height: 1;
+  font-weight: 700;
 }
 
 /* ── Desktop Nav Links ────────────────────────────────────── */
