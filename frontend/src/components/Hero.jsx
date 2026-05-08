@@ -209,15 +209,22 @@ export default function Hero() {
 
           {/* ── CTA buttons ── */}
           <div className="hero-ctas hero-anim" style={{ animationDelay: '0.46s' }}>
-            <a
-              href={countdown.open ? '#register' : undefined}
-              aria-disabled={!countdown.open}
-              className={`hero-btn-primary ${!countdown.open ? 'hero-btn--locked' : ''}`}
-            >
-              {countdown.open
-                ? <><ArrowRight size={16} aria-hidden="true" /> Register Now</>
-                : <><Lock size={15} aria-hidden="true" /> Registration Locked</>}
-            </a>
+            {countdown.open ? (
+              <a
+                href="#register"
+                className="hero-btn-primary"
+              >
+                <ArrowRight size={16} aria-hidden="true" /> Register Now
+              </a>
+            ) : (
+              <button
+                disabled
+                className="hero-btn-primary hero-btn--locked"
+                style={{ pointerEvents: 'none' }}
+              >
+                <Lock size={15} aria-hidden="true" /> Registration Locked
+              </button>
+            )}
             <a href="/themes" className="hero-btn-secondary">
               View Themes <ArrowRight size={15} aria-hidden="true" />
             </a>

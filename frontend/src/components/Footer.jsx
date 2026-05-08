@@ -79,22 +79,30 @@ export default function Footer() {
             <div className="grid sm:grid-cols-2 gap-3">
               {navLinks.map(link => {
                 const isRegister = link.label === 'Register'
+                
+                if (isRegister) {
+                  return (
+                    <button key={link.label}
+                      disabled
+                      className="font-heading font-600 text-sm flex items-center gap-2 group text-blue-300/40 cursor-not-allowed opacity-50"
+                      style={{ background: 'none', border: 'none', textAlign: 'left', pointerEvents: 'none' }}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-accent/40 flex-shrink-0" />
+                      <span className="flex items-center gap-1">
+                        <Lock size={13} />
+                        {link.label}
+                      </span>
+                    </button>
+                  )
+                }
+                
                 return (
                   <a key={link.label} href={link.href}
-                    onClick={(e) => {
-                      if (isRegister) e.preventDefault()
-                      else handleLinkClick(e, link.href)
-                    }}
-                    className={`font-heading font-600 text-sm flex items-center gap-2 group ${
-                      isRegister 
-                        ? 'text-blue-300/40 cursor-not-allowed opacity-50' 
-                        : 'text-blue-300 hover:text-white transition-colors'
-                    }`}
-                    style={isRegister ? { pointerEvents: 'none' } : {}}
+                    onClick={(e) => handleLinkClick(e, link.href)}
+                    className="font-heading font-600 text-sm flex items-center gap-2 group text-blue-300 hover:text-white transition-colors"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-accent/40 group-hover:bg-brand-accent transition-colors flex-shrink-0" />
                     <span className="flex items-center gap-1">
-                      {isRegister && <Lock size={13} />}
                       {link.label}
                     </span>
                   </a>
