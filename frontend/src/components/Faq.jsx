@@ -215,7 +215,7 @@ export default function FAQ() {
             Still have questions?
           </p>
           <p style={{ margin: '0 0 16px', fontSize: '13px', color: 'rgba(240,244,255,0.4)' }}>
-            Reach out to the organizing team — we're happy to help.
+            Reach out to the organizing team we're happy to help.
           </p>
           <a
             href="mailto:hackathon@kab.ac.ug"

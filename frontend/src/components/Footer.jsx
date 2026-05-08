@@ -53,7 +53,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="font-body text-sm text-blue-300 leading-relaxed max-w-sm mb-6">
-              Innovating for a Resilient Uganda — bringing together the brightest student minds to build digital solutions for national development.
+              Innovating for a Resilient Uganda bringing together the brightest student minds to build digital solutions for national development.
             </p>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3 text-blue-300">
