@@ -1,6 +1,5 @@
 {
-  "rootDirectory": "frontend",
-  "outputDirectory": "dist",
+  "outputDirectory": "frontend/dist",
   "rewrites": [
     {
       "source": "/(.*)",
