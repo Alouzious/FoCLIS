@@ -15,16 +15,30 @@ const navLinks = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const [lastScrollY, setLastScrollY] = useState(0)
   const [open, setOpen]         = useState(false)
   const location                = useLocation()
   const navigate                = useNavigate()
   const isHomePage              = location.pathname === '/'
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    const onScroll = () => {
+      const currentScrollY = window.scrollY
+      setScrolled(currentScrollY > 50)
+      
+      // Hide navbar when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setHidden(true)
+      } else {
+        setHidden(false)
+      }
+      setLastScrollY(currentScrollY)
+    }
+    
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [lastScrollY])
 
   useEffect(() => { setOpen(false) }, [location.pathname])
 
@@ -44,7 +58,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className={`navbar-root ${scrolled ? 'navbar-scrolled' : ''}`}>
+    <header className={`navbar-root ${scrolled ? 'navbar-scrolled' : ''} ${hidden ? 'navbar-hidden' : ''}`}>
       <div className="navbar-inner">
 
         {/* ── Logo ──────────────────────────────────────────────────── */}

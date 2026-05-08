@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { Linkedin, Twitter, Globe } from 'lucide-react'
+// import { useState } from 'react'
+// import { Linkedin, Twitter, Globe } from 'lucide-react'
 
-const people = [
+/* const people = [
   {
     id: 1,
     name: 'Dr. Amara Osei',
@@ -62,22 +62,22 @@ const people = [
     img: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=300&h=300&fit=crop&crop=center',
     socials: { linkedin: '#', website: '#' },
   },
-]
+] */
 
-const roleColors = {
+/* const roleColors = {
   Judge: { bg: 'rgba(26, 107, 255, 0.12)', text: '#1A6BFF', border: 'rgba(26, 107, 255, 0.3)' },
   Speaker: { bg: 'rgba(245, 158, 11, 0.12)', text: '#F59E0B', border: 'rgba(245, 158, 11, 0.3)' },
-}
+} */
 
 export default function Judges() {
-  const [filter, setFilter] = useState('All')
+  /* const [filter, setFilter] = useState('All')
   const filters = ['All', 'Judges', 'Speakers']
 
   const visible = people.filter(p => {
     if (filter === 'All') return true
     if (filter === 'Judges') return p.role === 'Judge'
     return p.role === 'Speaker'
-  })
+  }) */
 
   return (
     <section id="speakers" style={{ padding: '80px 0', background: '#020B1E' }}>
@@ -107,34 +107,47 @@ export default function Judges() {
               Judges &{' '}
               <span style={{ color: '#1A6BFF' }}>Speakers</span>
             </h2>
-
-            {/* Filter tabs */}
-            <div style={{ display: 'flex', gap: '6px', background: 'rgba(10,31,68,0.6)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(26,107,255,0.15)' }}>
-              {filters.map(f => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  style={{
-                    padding: '6px 16px',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    borderRadius: '7px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    background: filter === f ? '#1A6BFF' : 'transparent',
-                    color: filter === f ? '#fff' : 'rgba(240,244,255,0.5)',
-                  }}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
 
-        {/* Cards grid */}
+        {/* Revealing Soon Card */}
         <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '400px',
+        }}>
+          <div style={{
+            background: 'rgba(10, 31, 68, 0.45)',
+            border: '1px solid rgba(26, 107, 255, 0.12)',
+            borderRadius: '14px',
+            padding: '48px 32px',
+            textAlign: 'center',
+            maxWidth: '500px',
+            width: '100%',
+          }}>
+            <h3 style={{
+              fontSize: '32px',
+              fontWeight: 700,
+              color: '#F0F4FF',
+              margin: '0 0 12px',
+              fontFamily: "'Syne', sans-serif",
+            }}>
+              Revealing Soon
+            </h3>
+            <p style={{
+              fontSize: '16px',
+              color: 'rgba(240,244,255,0.5)',
+              margin: '0',
+              lineHeight: 1.6,
+            }}>
+              Our amazing judges and speakers will be announced very soon. Stay tuned for updates!
+            </p>
+          </div>
+        </div>
+
+        {/* Old grid - commented out */}
+        {/* <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
           gap: '20px',
@@ -142,10 +155,10 @@ export default function Judges() {
           {visible.map(person => (
             <PersonCard key={person.id} person={person} />
           ))}
-        </div>
+        </div> */}
 
         {/* Bottom note */}
-        <p style={{
+        {/* <p style={{
           textAlign: 'center',
           marginTop: '40px',
           fontSize: '13px',
@@ -153,134 +166,8 @@ export default function Judges() {
           letterSpacing: '0.05em',
         }}>
           More judges & speakers will be announced soon
-        </p>
+        </p> */}
       </div>
     </section>
   )
-}
-
-function PersonCard({ person }) {
-  const roleStyle = roleColors[person.role]
-
-  return (
-    <div style={{
-      background: 'rgba(10, 31, 68, 0.45)',
-      border: '1px solid rgba(26, 107, 255, 0.12)',
-      borderRadius: '14px',
-      overflow: 'hidden',
-      transition: 'transform 0.25s ease, border-color 0.25s ease',
-      cursor: 'default',
-    }}
-      onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-4px)'
-        e.currentTarget.style.borderColor = 'rgba(26,107,255,0.35)'
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.transform = 'translateY(0)'
-        e.currentTarget.style.borderColor = 'rgba(26,107,255,0.12)'
-      }}
-    >
-      {/* Image */}
-      <div style={{ position: 'relative', height: '160px', overflow: 'hidden' }}>
-        <img
-          src={person.img}
-          alt={person.name}
-          loading="lazy"
-          decoding="async"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center top',
-            filter: 'brightness(0.85) saturate(0.9)',
-          }}
-        />
-        {/* Role badge */}
-        <span style={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-          padding: '4px 10px',
-          fontSize: '11px',
-          fontWeight: 600,
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          borderRadius: '6px',
-          background: roleStyle.bg,
-          color: roleStyle.text,
-          border: `1px solid ${roleStyle.border}`,
-          backdropFilter: 'blur(8px)',
-        }}>
-          {person.role}
-        </span>
-      </div>
-
-      {/* Info */}
-      <div style={{ padding: '16px 18px 18px' }}>
-        <h3 style={{
-          margin: '0 0 2px',
-          fontSize: '16px',
-          fontWeight: 700,
-          color: '#F0F4FF',
-          fontFamily: "'Syne', sans-serif",
-        }}>
-          {person.name}
-        </h3>
-        <p style={{ margin: '0 0 6px', fontSize: '13px', color: '#1A6BFF', fontWeight: 500 }}>
-          {person.title}
-        </p>
-        <p style={{ margin: '0 0 12px', fontSize: '12px', color: 'rgba(240,244,255,0.45)' }}>
-          {person.org}
-        </p>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          {/* Tag */}
-          <span style={{
-            padding: '3px 10px',
-            fontSize: '11px',
-            fontWeight: 500,
-            borderRadius: '20px',
-            background: 'rgba(26,107,255,0.08)',
-            color: 'rgba(240,244,255,0.5)',
-            border: '1px solid rgba(26,107,255,0.12)',
-          }}>
-            {person.tag}
-          </span>
-
-          {/* Socials */}
-          <div style={{ display: 'flex', gap: '8px' }}>
-            {person.socials.linkedin && (
-              <a href={person.socials.linkedin} style={socialStyle} aria-label="LinkedIn">
-                <Linkedin size={14} />
-              </a>
-            )}
-            {person.socials.twitter && (
-              <a href={person.socials.twitter} style={socialStyle} aria-label="Twitter">
-                <Twitter size={14} />
-              </a>
-            )}
-            {person.socials.website && (
-              <a href={person.socials.website} style={socialStyle} aria-label="Website">
-                <Globe size={14} />
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const socialStyle = {
-  width: '28px',
-  height: '28px',
-  borderRadius: '7px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: 'rgba(26,107,255,0.08)',
-  border: '1px solid rgba(26,107,255,0.15)',
-  color: 'rgba(240,244,255,0.45)',
-  transition: 'all 0.2s ease',
-  textDecoration: 'none',
 }

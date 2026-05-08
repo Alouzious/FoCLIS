@@ -17,22 +17,11 @@ const partners = [
     description: 'Home of the Faculty of Computing & Information Systems — the organizing faculty behind FoCLIS Hackathon.',
     website: 'https://www.kab.ac.ug',
   },
-  {
-    id: 3,
-    name: 'Kabale University',
-    logo: KAB_LOGO,
-    tier: 'Silver',
-    description: 'Supporting student innovation and tech entrepreneurship across the Kigezi region and beyond.',
-    website: 'https://www.kab.ac.ug',
-  },
-  {
-    id: 4,
-    name: 'Kabale University',
-    logo: KAB_LOGO,
-    tier: 'Silver',
-    description: 'Committed to empowering the next generation of African engineers and digital problem-solvers.',
-    website: 'https://www.kab.ac.ug',
-  },
+]
+
+const sponsorTiers = [
+  { tier: 'Gold', placeholder: true },
+  { tier: 'Silver', placeholder: true },
 ]
 
 const tierColors = {
@@ -60,6 +49,7 @@ export default function Partners() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '20px' }}>
           {partners.map(p => <PartnerCard key={p.id} partner={p} />)}
+          {sponsorTiers.map(tier => <SponsorPlaceholder key={tier.tier} tier={tier.tier} />)}
         </div>
 
         <div style={{ marginTop: '40px', padding: '20px 24px', background: 'rgba(26,107,255,0.05)', border: '1px dashed rgba(26,107,255,0.2)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
@@ -115,6 +105,57 @@ function PartnerCard({ partner }) {
           <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="#1A6BFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </a>
+    </div>
+  )
+}
+
+function SponsorPlaceholder({ tier }) {
+  const t = tierColors[tier]
+  return (
+    <div
+      style={{
+        background: 'rgba(10,31,68,0.3)',
+        border: '2px dashed rgba(26,107,255,0.2)',
+        borderRadius: '14px',
+        padding: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '12px',
+        minHeight: '200px',
+        textAlign: 'center',
+      }}
+    >
+      <span style={{
+        fontSize: '10px',
+        fontWeight: 600,
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        padding: '3px 10px',
+        borderRadius: '20px',
+        background: t.bg,
+        color: t.color,
+        border: `1px solid ${t.border}`,
+      }}>
+        {tier}
+      </span>
+      <p style={{
+        margin: 0,
+        fontSize: '15px',
+        fontWeight: 700,
+        color: 'rgba(240,244,255,0.3)',
+        fontFamily: "'Syne', sans-serif",
+      }}>
+        Available Slot
+      </p>
+      <p style={{
+        margin: '4px 0 0',
+        fontSize: '12px',
+        color: 'rgba(240,244,255,0.2)',
+      }}>
+        Your brand here
+      </p>
     </div>
   )
 }

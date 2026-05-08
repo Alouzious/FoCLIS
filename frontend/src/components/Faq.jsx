@@ -14,7 +14,7 @@ const faqs = [
     category: 'General',
     question: 'Who can participate?',
     answer:
-      'The hackathon is open to all university students, recent graduates, and young professionals across Uganda and East Africa. You can participate as an individual or as a team of up to 4 members. You do not need to be a computer science student — we welcome designers, entrepreneurs, and domain experts too.',
+      'The hackathon is primarily open to FoCLIS (Faculty of Computing & Information Systems) students. However, FoCLIS students are encouraged to collaborate with students from other faculties and departments — such as engineering, data science, medicine, business, and more. Teams can be mixed with members from different departments and universities. You can participate as an individual or as a team of up to 4 members. We welcome developers, designers, entrepreneurs, and domain experts.',
   },
   {
     id: 3,
