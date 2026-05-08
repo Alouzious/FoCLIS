@@ -7,14 +7,14 @@ const faqs = [
     category: 'General',
     question: 'What is FoCLIS Hackathon?',
     answer:
-      'FoCLIS Hackathon is an annual innovation competition organized by the Faculty of Computing & Information Systems at Kabale University. It brings together students, developers, and innovators to build tech solutions addressing Uganda\'s most pressing challenges — from climate-smart agriculture to inclusive health and education.',
+      'FoCLIS Hackathon is an annual innovation competition organized by the Faculty of Computing & Information Systems at Kabale University. It brings together students, developers, and innovators to build tech solutions addressing Uganda\'s most pressing challenges from climate-smart agriculture to inclusive health and education.',
   },
   {
     id: 2,
     category: 'General',
     question: 'Who can participate?',
     answer:
-      'The hackathon is primarily open to FoCLIS (Faculty of Computing & Information Systems) students. However, FoCLIS students are encouraged to collaborate with students from other faculties and departments — such as engineering, data science, medicine, business, and more. Teams can be mixed with members from different departments and universities. You can participate as an individual or as a team of up to 4 members. We welcome developers, designers, entrepreneurs, and domain experts.',
+      'The hackathon is primarily open to FoCLIS (Faculty of Computing & Information Systems) students. However, FoCLIS students are encouraged to collaborate with students from other faculties and departments such as engineering, data science, medicine, business, and more. Teams can be mixed with members from different departments and universities. You can participate as an individual or as a team of up to 4 members. We welcome developers, designers, entrepreneurs, and domain experts.',
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ const faqs = [
     category: 'Themes',
     question: 'Can my team work on multiple tracks?',
     answer:
-      'No — each team must focus on a single challenge track. This ensures your solution is deep, impactful, and well-evaluated within its domain. However, cross-cutting solutions that connect two tracks (e.g. agri-finance) are welcome under the most relevant track.',
+      'No each team must focus on a single challenge track. This ensures your solution is deep, impactful, and well-evaluated within its domain. However, cross-cutting solutions that connect two tracks (e.g. agri-finance) are welcome under the most relevant track.',
   },
   {
     id: 7,

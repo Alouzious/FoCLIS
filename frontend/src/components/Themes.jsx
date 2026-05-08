@@ -16,7 +16,7 @@ const themes = [
     title: 'Climate-Smart AgriTech',
     subtitle: 'Building Resilient Food Systems for Uganda',
     tag: 'Agriculture & Environment',
-    whyFitsShort: 'Agriculture is central to Uganda\'s economy, food security, and rural livelihoods — yet the sector faces climate change, post-harvest losses, low productivity, and weak digital support.',
+    whyFitsShort: 'Agriculture is central to Uganda\'s economy, food security, and rural livelihoods yet the sector faces climate change, post-harvest losses, low productivity, and weak digital support.',
     whyFitsFull: [
       'Agriculture remains one of the most important sectors in Uganda\'s economy and is central to employment, food security, household income, and rural livelihoods. However, the sector continues to face major challenges such as climate change, erratic rainfall, pests and diseases, post-harvest losses, low productivity, limited extension support, and difficulties in accessing reliable markets and quality farm inputs.',
       'In line with Uganda\'s NDP IV, there is an increasing need for innovations that support agricultural modernization, value addition, sustainability, and climate resilience.',
@@ -44,7 +44,7 @@ const themes = [
     title: 'Inclusive Digital Health',
     subtitle: 'Advancing HIV/AIDS Response, Mental Health, and Maternal Care',
     tag: 'Health & Well-being',
-    whyFitsShort: 'Health remains a national priority in Uganda, with significant gaps in access, continuity of care, and preventive services — especially in rural and underserved communities.',
+    whyFitsShort: 'Health remains a national priority in Uganda, with significant gaps in access, continuity of care, and preventive services especially in rural and underserved communities.',
     whyFitsFull: [
       'Health remains a major national priority in Uganda, particularly in relation to access, affordability, quality, and equity of service delivery. Although progress has been made in improving healthcare systems, significant gaps still exist in health information access, continuity of care, referral support, and preventive services, especially in rural and underserved communities. Digital tools have the potential to improve healthcare access, strengthen awareness, and support timely intervention.',
       'This sub-theme is particularly relevant because it focuses on critical public health areas such as HIV/AIDS, mental health, and maternal health. HIV/AIDS continues to require sustained awareness, prevention, stigma reduction, and treatment adherence support. Mental health challenges are increasingly affecting young people and communities, yet access to support services remains limited. Maternal health also remains a pressing concern, especially in areas of antenatal support, postnatal follow-up, birth preparedness, and referral systems.',
@@ -75,7 +75,7 @@ const themes = [
     whyFitsShort: 'Education is a key pillar of Uganda\'s NDP IV, yet many schools and learners struggle with limited digital tools, poor connectivity, and unequal access to quality learning resources.',
     whyFitsFull: [
       'Education is central to human capital development, which is one of the key pillars of Uganda\'s NDP IV. As the country continues to expand digital transformation, there is a growing need for solutions that improve access to learning, support teachers, enhance learner engagement, and strengthen digital literacy.',
-      'However, many schools and learners still face challenges such as limited access to digital tools, weak internet connectivity, inadequate e-learning infrastructure, shortage of quality learning materials, and unequal educational opportunities — particularly in rural and underserved communities.',
+      'However, many schools and learners still face challenges such as limited access to digital tools, weak internet connectivity, inadequate e-learning infrastructure, shortage of quality learning materials, and unequal educational opportunities particularly in rural and underserved communities.',
       'This sub-theme encourages participants to build solutions that improve the quality, inclusiveness, and accessibility of education in Uganda. It gives room for the development of affordable, practical, and low-bandwidth tools that respond to the realities of schools, teachers, and learners in both urban and rural settings.',
     ],
     solutions: [
@@ -102,7 +102,7 @@ const themes = [
     tag: 'Economy & Youth Empowerment',
     whyFitsShort: 'Uganda has a youthful population with strong entrepreneurial potential, but many young people face unemployment, financial exclusion, and limited access to market and business opportunities.',
     whyFitsFull: [
-      'Economic empowerment is essential to building resilient communities and enabling citizens — especially young people — to participate meaningfully in national development. Uganda has a youthful population with strong entrepreneurial potential, but many young people still face unemployment, underemployment, limited access to market opportunities, inadequate business support, and financial exclusion.',
+      'Economic empowerment is essential to building resilient communities and enabling citizens especially young people to participate meaningfully in national development. Uganda has a youthful population with strong entrepreneurial potential, but many young people still face unemployment, underemployment, limited access to market opportunities, inadequate business support, and financial exclusion.',
       'Digital innovation can play a major role in addressing these challenges by opening new pathways for entrepreneurship, skills development, financial access, and digital livelihoods.',
       'This sub-theme broadens the hackathon\'s impact beyond service delivery sectors and allows participants to design innovations that support income generation, business growth, financial inclusion, and youth empowerment. It also aligns with national aspirations for private sector development, job creation, and enterprise growth.',
     ],
