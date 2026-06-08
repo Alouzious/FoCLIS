@@ -7,6 +7,7 @@ import {
   GraduationCap, Compass, Languages, Smartphone,
   Wallet, ShoppingBag, Handshake, Search, TrendingUp, Lightbulb
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
@@ -99,7 +100,7 @@ const tracks = [
 ]
 
 /* ── Single track page section ───────────────────────────────── */
-function TrackSection({ track, isLast }) {
+function TrackSection({ track }) {
   const ref = useRef()
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -117,18 +118,16 @@ function TrackSection({ track, isLast }) {
       className="themes-track-section"
       style={{ background: track.bg }}
     >
-      {/* Top border line */}
       <div className="themes-track-topline" style={{ background: `linear-gradient(to right, transparent, ${track.color}55, transparent)` }} />
 
       <div className="themes-container">
 
-        {/* ── Track header ── */}
+        {/* Track header */}
         <div className="tr-fade themes-track-header">
           <div className="themes-track-meta">
             <span className="themes-track-num" style={{ color: track.color }}>Track {track.id}</span>
             <span className="themes-track-tag">{track.tag}</span>
           </div>
-
           <div className="themes-track-title-row">
             <div className="themes-track-icon-wrap" style={{ background: `${track.color}14`, border: `1px solid ${track.color}30` }}>
               <track.Icon size={28} color={track.color} />
@@ -140,7 +139,7 @@ function TrackSection({ track, isLast }) {
           </div>
         </div>
 
-        {/* ── Why this track — full editorial prose, no cards ── */}
+        {/* Why this track */}
         <div className="tr-fade themes-track-body" style={{ transitionDelay: '0.1s' }}>
           <div className="themes-track-body-label" style={{ borderColor: `${track.color}50` }}>
             <span style={{ color: track.color }}>Why This Track</span>
@@ -152,14 +151,14 @@ function TrackSection({ track, isLast }) {
           </div>
         </div>
 
-        {/* ── Divider ── */}
+        {/* Divider */}
         <div className="tr-fade themes-divider" style={{ transitionDelay: '0.15s' }}>
           <div className="themes-divider-line" style={{ background: `${track.color}22` }} />
           <span className="themes-divider-label" style={{ color: `${track.color}99` }}>Possible Solutions to Build</span>
           <div className="themes-divider-line" style={{ background: `${track.color}22` }} />
         </div>
 
-        {/* ── Solutions — 2-column list layout, NOT cards ── */}
+        {/* Solutions */}
         <div className="tr-fade themes-solutions-grid" style={{ transitionDelay: '0.2s' }}>
           {track.solutions.map(({ Icon, title, desc }, i) => (
             <div key={i} className="themes-solution-item">
@@ -174,20 +173,22 @@ function TrackSection({ track, isLast }) {
           ))}
         </div>
 
-        {/* ── CTA strip — only a text link, no heavy card ── */}
+        {/* CTA strip — unlocked */}
         <div className="tr-fade themes-track-cta" style={{ transitionDelay: '0.3s' }}>
           <p className="themes-track-cta-text">
             Building in the <strong style={{ color: track.color }}>{track.title}</strong> track?
-            Applications open <strong>June 6, 2026.</strong>
+            Applications are open now.
           </p>
-          <button disabled style={{ color: track.color, opacity: 0.5, cursor: 'not-allowed', background: 'none', border: 'none', padding: 0, font: 'inherit', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Lock size={14} /> Register Locked <ArrowRight size={14} />
-          </button>
+          <Link
+            to="/register"
+            style={{ color: track.color, background: 'none', border: 'none', padding: 0, font: 'inherit', display: 'flex', alignItems: 'center', gap: '6px', textDecoration: 'none', fontWeight: 600 }}
+          >
+            Register Now <ArrowRight size={14} />
+          </Link>
         </div>
 
       </div>
 
-      {/* Bottom track number watermark */}
       <div className="themes-track-watermark" style={{ color: `${track.color}07` }}>
         {track.id}
       </div>
@@ -213,11 +214,10 @@ export default function ThemesPage() {
     <div className="themes-page-root">
       <Navbar />
 
-      {/* ── Page hero ── */}
+      {/* Page hero */}
       <header ref={heroRef} className="themes-page-hero">
         <div className="themes-container">
 
-          {/* Headline */}
           <div className="tr-fade themes-page-headline" style={{ transitionDelay: '0.08s' }}>
             <span className="themes-page-eyebrow">FoCLIS Hackathon 2026 · Innovation Tracks</span>
             <h1 className="themes-page-h1">
@@ -229,7 +229,6 @@ export default function ThemesPage() {
             </p>
           </div>
 
-          {/* Overall theme block */}
           <div className="tr-fade themes-main-theme-block" style={{ transitionDelay: '0.16s' }}>
             <span className="themes-main-theme-eyebrow">Overall Hackathon Theme</span>
             <blockquote className="themes-main-theme-quote">
@@ -240,7 +239,6 @@ export default function ThemesPage() {
             </p>
           </div>
 
-          {/* Track jump links */}
           <div className="tr-fade themes-jump-links" style={{ transitionDelay: '0.22s' }}>
             {tracks.map(t => (
               <a key={t.id} href={`#track-${t.id}`} className="themes-jump-link" style={{ '--c': t.color }}>
@@ -252,12 +250,12 @@ export default function ThemesPage() {
         </div>
       </header>
 
-      {/* ── Track sections ── */}
-      {tracks.map((track, i) => (
-        <TrackSection key={track.id} track={track} isLast={i === tracks.length - 1} />
+      {/* Track sections */}
+      {tracks.map((track) => (
+        <TrackSection key={track.id} track={track} />
       ))}
 
-      {/* ── Closing CTA ── */}
+      {/* Closing CTA — unlocked */}
       <section className="themes-closing">
         <div className="themes-container themes-closing-inner">
           <span className="themes-closing-eyebrow">Ready to Build?</span>
@@ -266,12 +264,12 @@ export default function ThemesPage() {
             <span className="themes-closing-accent">the solution Uganda needs.</span>
           </h3>
           <p className="themes-closing-body">
-            Applications open June 6, 2026. Pick your track, form your team, and build something that matters.
+            Applications are open. Pick your track, form your team, and build something that matters.
           </p>
           <div className="themes-closing-actions">
-            <button disabled style={{ opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }} className="themes-btn-primary">
-              <Lock size={16} /> Register Locked
-            </button>
+            <Link to="/register" className="themes-btn-primary">
+              Register Now <ArrowRight size={16} />
+            </Link>
             <a href="/#about" className="themes-btn-secondary">Learn More</a>
           </div>
         </div>

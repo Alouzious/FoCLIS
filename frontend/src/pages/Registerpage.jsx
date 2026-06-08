@@ -3,23 +3,20 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import {
   Users, Briefcase, GraduationCap, Building2,
-  ChevronRight, CheckCircle2, Lock, Plus, Minus,
+  ChevronRight, CheckCircle2, Plus, Minus,
   AlertCircle, Leaf, HeartPulse, BookOpen, TrendingUp,
   Lightbulb,
 } from 'lucide-react'
 
-// ─── CONFIG ──────────────────────────────────────────────────────────
-const API_ENDPOINT = '/api/register' // swap in your real endpoint
+const API_ENDPOINT = `${import.meta.env.VITE_API_URL}/api/register`
 
-// ─── ROLES ───────────────────────────────────────────────────────────
 const ROLES = [
-  { id: 'hacker',   icon: Users,         label: 'Hacker',          sub: 'Compete & build', color: '#3B82F6' },
-  { id: 'attendee', icon: GraduationCap, label: 'Attendee',        sub: 'Watch & learn',   color: '#10B981' },
+  { id: 'hacker',   icon: Users,         label: 'Hacker',          sub: 'Compete & build',   color: '#3B82F6' },
+  { id: 'attendee', icon: GraduationCap, label: 'Attendee',        sub: 'Watch & learn',     color: '#10B981' },
   { id: 'sponsor',  icon: Building2,     label: 'Hack Partner',    sub: 'Sponsor & support', color: '#F59E0B' },
-  { id: 'lecturer', icon: Briefcase,     label: 'Lecturer/Mentor', sub: 'Guide & judge',   color: '#8B5CF6' },
+  { id: 'lecturer', icon: Briefcase,     label: 'Lecturer/Mentor', sub: 'Guide & judge',     color: '#8B5CF6' },
 ]
 
-// ─── TRACKS ──────────────────────────────────────────────────────────
 const TRACKS = [
   { value: 'climate',   label: 'Climate-Smart Agriculture', Icon: Leaf,        color: '#10B981' },
   { value: 'health',    label: 'Inclusive Health',          Icon: HeartPulse,  color: '#F43F5E' },
@@ -27,22 +24,20 @@ const TRACKS = [
   { value: 'economic',  label: 'Economic Empowerment',      Icon: TrendingUp,  color: '#F59E0B' },
 ]
 
-// ─── COURSES ─────────────────────────────────────────────────────────
 const COURSES = [
-  { value: 'BIT', label: 'BIT – Bachelor of Information Technology' },
-  { value: 'BCS', label: 'BCS – Bachelor of Computer Science' },
-  { value: 'DIT', label: 'DIT – Diploma in Information Technology' },
-  { value: 'DCS', label: 'DCS – Diploma in Computer Science' },
-  { value: 'BRM', label: 'BRM – Bachelor of Records Management' },
-  { value: 'BLS', label: 'BLS – Bachelor of Library Science' },
-  { value: 'DLS', label: 'DLS – Diploma in Library Science' },
-  { value: 'DRM', label: 'DRM – Diploma in Records Management' },
+  { value: 'BIT',   label: 'BIT – Bachelor of Information Technology' },
+  { value: 'BCS',   label: 'BCS – Bachelor of Computer Science' },
+  { value: 'DIT',   label: 'DIT – Diploma in Information Technology' },
+  { value: 'DCS',   label: 'DCS – Diploma in Computer Science' },
+  { value: 'BRM',   label: 'BRM – Bachelor of Records Management' },
+  { value: 'BLS',   label: 'BLS – Bachelor of Library Science' },
+  { value: 'DLS',   label: 'DLS – Diploma in Library Science' },
+  { value: 'DRM',   label: 'DRM – Diploma in Records Management' },
   { value: 'other', label: 'Other' },
 ]
 
 const YEARS = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Graduate / Postgrad']
 
-// ─── STYLES ──────────────────────────────────────────────────────────
 const css = {
   input: {
     background: 'rgba(255,255,255,0.04)',
@@ -59,7 +54,6 @@ const css = {
   },
 }
 
-// ─── PRIMITIVES ───────────────────────────────────────────────────────
 function Field({ label, required, hint, error, children }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
@@ -105,16 +99,8 @@ function Select({ value, onChange, children }) {
   return (
     <>
       <style>{`
-        select option {
-          background-color: #1a1a2e;
-          color: #E8EDF8;
-          padding: 8px;
-        }
-        select option:checked {
-          background: linear-gradient(#3B82F6, #3B82F6);
-          background-color: #3B82F6;
-          color: white;
-        }
+        select option { background-color: #1a1a2e; color: #E8EDF8; padding: 8px; }
+        select option:checked { background: linear-gradient(#3B82F6, #3B82F6); background-color: #3B82F6; color: white; }
       `}</style>
       <select value={value} onChange={onChange}
         style={{ ...css.input, cursor: 'pointer' }}
@@ -147,7 +133,6 @@ function Grid2({ children }) {
   )
 }
 
-// ─── TRACK SELECTOR ───────────────────────────────────────────────────
 function TrackSelector({ value, onChange, error }) {
   return (
     <Field label="Challenge Track" required error={error}>
@@ -177,7 +162,6 @@ function TrackSelector({ value, onChange, error }) {
   )
 }
 
-// ─── TEAM MEMBER ROW ─────────────────────────────────────────────────
 function TeamMemberRow({ index, member, onChange, onRemove, canRemove }) {
   return (
     <div style={{
@@ -221,7 +205,6 @@ function TeamMemberRow({ index, member, onChange, onRemove, canRemove }) {
   )
 }
 
-// ─── HACKER FORM ─────────────────────────────────────────────────────
 function HackerForm({ data, setData, errors }) {
   const updateMember = (i, field, val) => {
     const members = [...data.teamMembers]
@@ -241,19 +224,15 @@ function HackerForm({ data, setData, errors }) {
         <Field label="Project Name" required error={errors.projectName}>
           <Input value={data.projectName} onChange={e => setData({ ...data, projectName: e.target.value })} placeholder="e.g. AgroSense AI" />
         </Field>
-
         <TrackSelector value={data.track} onChange={v => setData({ ...data, track: v })} error={errors.track} />
-
         <Field label="Problem Statement" required hint="Describe the specific problem your project addresses (50–300 words)" error={errors.problemStatement}>
           <Textarea value={data.problemStatement} onChange={e => setData({ ...data, problemStatement: e.target.value })}
             placeholder="What problem are you solving? Who is affected? Why does it matter?" rows={4} />
         </Field>
-
         <Field label="Proposed Solution" required hint="How does your project solve this problem?" error={errors.solution}>
           <Textarea value={data.solution} onChange={e => setData({ ...data, solution: e.target.value })}
             placeholder="Describe your solution, the technology you'll use, and how it addresses the problem." rows={4} />
         </Field>
-
         <Field label="Community Impact" required hint="How will your solution benefit communities in Uganda?" error={errors.impact}>
           <Textarea value={data.impact} onChange={e => setData({ ...data, impact: e.target.value })}
             placeholder="Describe the expected impact and who will benefit most." rows={3} />
@@ -308,7 +287,6 @@ function HackerForm({ data, setData, errors }) {
   )
 }
 
-// ─── ATTENDEE FORM ───────────────────────────────────────────────────
 function AttendeeForm({ data, setData, errors }) {
   return (
     <div>
@@ -358,7 +336,6 @@ function AttendeeForm({ data, setData, errors }) {
   )
 }
 
-// ─── SPONSOR FORM ────────────────────────────────────────────────────
 function SponsorForm({ data, setData, errors }) {
   return (
     <div>
@@ -423,7 +400,6 @@ function SponsorForm({ data, setData, errors }) {
   )
 }
 
-// ─── LECTURER FORM ───────────────────────────────────────────────────
 function LecturerForm({ data, setData, errors }) {
   return (
     <div>
@@ -487,7 +463,6 @@ function LecturerForm({ data, setData, errors }) {
   )
 }
 
-// ─── DEFAULT DATA ────────────────────────────────────────────────────
 const defaultData = {
   hacker: {
     projectName: '', track: '', problemStatement: '', solution: '', impact: '',
@@ -499,7 +474,6 @@ const defaultData = {
   lecturer: { firstName: '', lastName: '', email: '', phone: '', institution: '', department: '', role: '', expertise: '', bio: '' },
 }
 
-// ─── VALIDATION ──────────────────────────────────────────────────────
 function validate(role, data) {
   const e = {}
   if (role === 'hacker') {
@@ -538,41 +512,92 @@ function validate(role, data) {
   return e
 }
 
-// ─── MAIN PAGE ───────────────────────────────────────────────────────
 export default function RegisterPage() {
   const [activeRole, setActiveRole] = useState('hacker')
-  const [formData, setFormData] = useState(defaultData)
-  const [errors, setErrors] = useState({})
-  const [status, setStatus] = useState('idle') // idle | submitting | success | closed | error
+  const [formData, setFormData]     = useState(defaultData)
+  const [errors, setErrors]         = useState({})
+  const [status, setStatus]         = useState('idle')
 
-  const role = ROLES.find(r => r.id === activeRole)
-  const data = formData[activeRole]
+  const role    = ROLES.find(r => r.id === activeRole)
+  const data    = formData[activeRole]
   const setData = d => setFormData({ ...formData, [activeRole]: d })
+
+  const buildPayload = () => {
+    if (activeRole === 'hacker') return {
+      role: 'hacker',
+      project_name: data.projectName,
+      track: data.track,
+      problem_statement: data.problemStatement,
+      solution: data.solution,
+      impact: data.impact,
+      leader_name: data.leaderName,
+      phone: data.phone,
+      university: data.university,
+      referral: data.referral || null,
+      team_members: data.teamMembers.map(m => ({
+        name: m.name,
+        email: m.email,
+        year: m.year || null,
+        course: m.course || null,
+      })),
+    }
+    if (activeRole === 'attendee') return {
+      role: 'attendee',
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      phone: data.phone || null,
+      org: data.org,
+      course: data.course || null,
+      year: data.year || null,
+      reason: data.reason || null,
+    }
+    if (activeRole === 'sponsor') return {
+      role: 'sponsor',
+      org_name: data.orgName,
+      website: data.website || null,
+      sector: data.sector,
+      contact_name: data.contactName,
+      job_title: data.jobTitle || null,
+      email: data.email,
+      phone: data.phone || null,
+      tier: data.tier,
+      message: data.message || null,
+    }
+    // lecturer — participant_role avoids duplicate key with the tag field
+    return {
+      role: 'lecturer',
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      phone: data.phone || null,
+      institution: data.institution,
+      department: data.department || null,
+      participant_role: data.role,
+      expertise: data.expertise,
+      bio: data.bio || null,
+    }
+  }
 
   const handleSubmit = async () => {
     const errs = validate(activeRole, data)
     if (Object.keys(errs).length > 0) { setErrors(errs); return }
     setErrors({})
     setStatus('submitting')
-
     try {
       const res = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role: activeRole, ...data, submittedAt: new Date().toISOString() }),
+        body: JSON.stringify(buildPayload()),
       })
-
       if (!res.ok) throw new Error('Server error')
       setStatus('success')
     } catch {
-      // Backend not yet connected — show closed screen
-      // Change setStatus('closed') → setStatus('success') once backend is live
-      setTimeout(() => setStatus('closed'), 500)
+      setStatus('error')
     }
   }
 
   if (status === 'success') return <SuccessScreen role={role} />
-  if (status === 'closed') return <ClosedScreen />
 
   return (
     <>
@@ -583,19 +608,15 @@ export default function RegisterPage() {
         paddingTop: '88px',
         paddingBottom: '80px',
       }}>
-        {/* Dot grid background */}
         <div style={{
           position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
           backgroundImage: 'radial-gradient(circle, rgba(59,130,246,0.07) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
         }} />
-        {/* Glow blobs */}
         <div style={{ position: 'fixed', top: '10%', left: '5%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)', zIndex: 0, pointerEvents: 'none' }} />
         <div style={{ position: 'fixed', bottom: '10%', right: '5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 70%)', zIndex: 0, pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 28px', position: 'relative', zIndex: 1 }}>
-
-          {/* ─ Page Header ─ */}
           <div style={{ marginBottom: '44px' }}>
             <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#3B82F6', margin: '0 0 10px' }}>
               FoCLIS Hackathon 2026
@@ -608,7 +629,6 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {/* ─ Role Tabs ─ */}
           <div style={{
             display: 'flex', gap: 6,
             borderBottom: '1px solid rgba(255,255,255,0.07)',
@@ -622,12 +642,10 @@ export default function RegisterPage() {
                   onClick={() => { setActiveRole(r.id); setErrors({}) }}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px',
-                    borderRadius: '8px 8px 0 0',
-                    border: 'none',
+                    borderRadius: '8px 8px 0 0', border: 'none',
                     borderBottom: isActive ? `2px solid ${r.color}` : '2px solid transparent',
                     background: isActive ? `${r.color}12` : 'transparent',
-                    cursor: 'pointer', marginBottom: -1,
-                    transition: 'all 0.18s',
+                    cursor: 'pointer', marginBottom: -1, transition: 'all 0.18s',
                   }}
                 >
                   <Icon size={15} color={isActive ? r.color : 'rgba(232,237,248,0.3)'} />
@@ -639,14 +657,18 @@ export default function RegisterPage() {
             })}
           </div>
 
-          {/* ─ Form Body ─ */}
           {activeRole === 'hacker'   && <HackerForm   data={data} setData={setData} errors={errors} />}
           {activeRole === 'attendee' && <AttendeeForm  data={data} setData={setData} errors={errors} />}
           {activeRole === 'sponsor'  && <SponsorForm   data={data} setData={setData} errors={errors} />}
           {activeRole === 'lecturer' && <LecturerForm  data={data} setData={setData} errors={errors} />}
 
-          {/* ─ Submit ─ */}
           <div style={{ marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 14 }}>
+            {status === 'error' && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', borderRadius: 8, background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)', color: '#F87171', fontSize: 13 }}>
+                <AlertCircle size={14} />
+                Submission failed — please check your connection and try again.
+              </div>
+            )}
             <button
               onClick={handleSubmit}
               disabled={status === 'submitting'}
@@ -663,8 +685,8 @@ export default function RegisterPage() {
                 fontFamily: "'Syne', sans-serif",
                 letterSpacing: '0.01em',
               }}
-              onMouseEnter={e => { if (status !== 'submitting') e.target.style.transform = 'translateY(-1px)' }}
-              onMouseLeave={e => { e.target.style.transform = 'none' }}
+              onMouseEnter={e => { if (status !== 'submitting') e.currentTarget.style.transform = 'translateY(-1px)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'none' }}
             >
               {status === 'submitting' ? 'Submitting…' : <> Submit Application <ChevronRight size={16} /> </>}
             </button>
@@ -672,7 +694,6 @@ export default function RegisterPage() {
               Fields marked <span style={{ color: '#3B82F6' }}>*</span> are required · Your data is secure and used only for FoCLIS Hackathon 2026
             </p>
           </div>
-
         </div>
       </main>
       <Footer />
@@ -680,36 +701,6 @@ export default function RegisterPage() {
   )
 }
 
-// ─── REGISTRATION CLOSED ─────────────────────────────────────────────
-function ClosedScreen() {
-  return (
-    <>
-      <Navbar />
-      <main style={{ minHeight: '100vh', background: '#050A18', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '80px' }}>
-        <div style={{ textAlign: 'center', padding: '0 24px', maxWidth: '440px' }}>
-          <div style={{ width: 60, height: 60, borderRadius: 14, background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-            <Lock size={26} color="#3B82F6" />
-          </div>
-          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 800, color: '#E8EDF8', margin: '0 0 10px' }}>
-            Registration Not Open Yet
-          </h2>
-          <p style={{ fontSize: 15, color: 'rgba(232,237,248,0.45)', margin: '0 0 6px' }}>
-            Applications open on <strong style={{ color: '#F59E0B' }}>June 6, 2026</strong>.
-          </p>
-          <p style={{ fontSize: 13, color: 'rgba(232,237,248,0.28)', margin: '0 0 28px' }}>
-            Follow us on social media or check back closer to the date.
-          </p>
-          <a href="/" style={{ padding: '11px 26px', background: '#3B82F6', color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
-            Back to Home
-          </a>
-        </div>
-      </main>
-      <Footer />
-    </>
-  )
-}
-
-// ─── SUCCESS ─────────────────────────────────────────────────────────
 function SuccessScreen({ role }) {
   return (
     <>
@@ -720,7 +711,7 @@ function SuccessScreen({ role }) {
             <CheckCircle2 size={28} color="#10B981" />
           </div>
           <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 800, color: '#E8EDF8', margin: '0 0 10px' }}>
-            Application Submitted!
+            Application Submitted
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(232,237,248,0.45)', margin: '0 0 28px' }}>
             Thanks for registering as a <strong style={{ color: role.color }}>{role.label}</strong>. We'll be in touch via email soon.

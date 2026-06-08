@@ -1,20 +1,20 @@
-import { Mail, Phone, MapPin, ExternalLink, Lock } from 'lucide-react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Mail, Phone, MapPin } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const navLinks = [
-  { label: 'About', href: '/#about' },
-  { label: 'Themes', href: '/themes' },
-  { label: 'Prizes', href: '/#prizes' },
+  { label: 'About',    href: '/#about'    },
+  { label: 'Themes',   href: '/themes'    },
+  { label: 'Prizes',   href: '/#prizes'   },
   { label: 'Schedule', href: '/#timeline' },
   { label: 'Speakers', href: '/#speakers' },
   { label: 'Partners', href: '/#partners' },
-  { label: 'FAQ', href: '/#faq' },
-  { label: 'Register', href: '/register' },
+  { label: 'FAQ',      href: '/#faq'      },
+  { label: 'Register', href: '/register'  },
 ]
 
 export default function Footer() {
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location   = useLocation()
+  const navigate   = useNavigate()
   const isHomePage = location.pathname === '/'
 
   const handleHashLink = (href) => {
@@ -35,6 +35,7 @@ export default function Footer() {
       handleHashLink(href)
     }
   }
+
   return (
     <footer id="contact" className="relative pt-20 pb-10 overflow-hidden" style={{ background: '#010915' }}>
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-accent/40 to-transparent" />
@@ -78,33 +79,30 @@ export default function Footer() {
             <h4 className="font-mono text-xs tracking-widest text-blue-400 uppercase mb-5">Quick Links</h4>
             <div className="grid sm:grid-cols-2 gap-3">
               {navLinks.map(link => {
-                const isRegister = link.label === 'Register'
-                
-                if (isRegister) {
+                const isPage = !link.href.includes('#')
+
+                if (isPage) {
                   return (
-                    <button key={link.label}
-                      disabled
-                      className="font-heading font-600 text-sm flex items-center gap-2 group text-blue-300/40 cursor-not-allowed opacity-50"
-                      style={{ background: 'none', border: 'none', textAlign: 'left', pointerEvents: 'none' }}
+                    <Link
+                      key={link.label}
+                      to={link.href}
+                      className="font-heading font-600 text-sm flex items-center gap-2 group text-blue-300 hover:text-white transition-colors"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-accent/40 flex-shrink-0" />
-                      <span className="flex items-center gap-1">
-                        <Lock size={13} />
-                        {link.label}
-                      </span>
-                    </button>
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-accent/40 group-hover:bg-brand-accent transition-colors flex-shrink-0" />
+                      {link.label}
+                    </Link>
                   )
                 }
-                
+
                 return (
-                  <a key={link.label} href={link.href}
+                  <a
+                    key={link.label}
+                    href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
                     className="font-heading font-600 text-sm flex items-center gap-2 group text-blue-300 hover:text-white transition-colors"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-accent/40 group-hover:bg-brand-accent transition-colors flex-shrink-0" />
-                    <span className="flex items-center gap-1">
-                      {link.label}
-                    </span>
+                    {link.label}
                   </a>
                 )
               })}

@@ -1,12 +1,49 @@
 /// Immediate confirmation email after registration
 pub fn confirmation_email(name: &str, role: &str, extra: Option<&str>) -> String {
     let role_line = match role {
-        "hacker"   => "You've registered as a <strong>Hacker</strong>. Get ready to build something that matters.",
+        "hacker"   => "You've registered as a <strong>Hacker</strong>. Your project idea is now under review.",
         "attendee" => "You've registered as an <strong>Attendee</strong>. We're excited to have you in the room.",
         "sponsor"  => "You've registered as a <strong>Hack Partner / Sponsor</strong>. Our team will reach out shortly.",
         "lecturer" => "You've registered as a <strong>Lecturer / Mentor</strong>. Thank you for volunteering your expertise.",
         _          => "Your registration has been received.",
     };
+
+    let hacker_note = if role == "hacker" { r#"
+        <tr><td style="padding:0 0 20px">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.2);border-radius:10px;">
+                <tr><td style="padding:20px 22px;">
+                    <p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#3b82f6;letter-spacing:0.08em;text-transform:uppercase;">What happens next</p>
+                    <p style="margin:0 0 14px;font-size:14px;color:#94a3b8;line-height:1.75;">
+                        Our panel will review all submitted projects and select teams with a strong problem statement,
+                        a practical solution, and a clear community impact.
+                        <strong style="color:#e2e8f0;">If your team is selected, you will receive an approval email</strong>
+                        with further instructions before the hackathon date.
+                    </p>
+                    <p style="margin:0;font-size:14px;color:#94a3b8;line-height:1.75;">
+                        <strong style="color:#e2e8f0;">Don't wait to start building.</strong>
+                        Whether or not you've been approved yet, use this time wisely to
+                        refine your idea, sketch your prototype, validate it with real users,
+                        and divide roles in your team. The deadline doesn't move,
+                        and the teams that show up prepared are the ones that win.
+                    </p>
+                </td></tr>
+            </table>
+        </td></tr>
+        <tr><td style="padding:0 0 20px">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:10px;">
+                <tr><td style="padding:18px 22px;">
+                    <p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#10b981;letter-spacing:0.08em;text-transform:uppercase;">Start now checklist</p>
+                    <ul style="margin:0;padding-left:18px;color:#94a3b8;font-size:14px;line-height:2.1;">
+                        <li>Sharpen your <strong style="color:#e2e8f0;">problem statement</strong> who exactly is affected and how?</li>
+                        <li>Validate your idea with at least one real potential user</li>
+                        <li>Sketch a wireframe or basic prototype</li>
+                        <li>Assign clear roles to every team member</li>
+                        <li>Review the challenge track criteria on our website</li>
+                    </ul>
+                </td></tr>
+            </table>
+        </td></tr>
+    "# } else { "" };
 
     let extra_block = extra.map(|e| format!(
         r#"<tr><td style="padding:0 0 16px"><p style="margin:0;font-size:14px;color:#94a3b8;">{}</p></td></tr>"#,
@@ -24,18 +61,13 @@ pub fn confirmation_email(name: &str, role: &str, extra: Option<&str>) -> String
             </p>
         </td></tr>
         {extra_block}
-        <tr><td style="padding:0 0 28px">
-            <p style="margin:0;font-size:14px;color:#64748b;line-height:1.7;">
-                Keep refining your idea — the strongest submissions are the ones with a clear problem,
-                a practical solution, and a real community impact. We'll be in touch.
-            </p>
-        </td></tr>
+        {hacker_note}
         <tr><td style="padding:0 0 0">
-            <a href="https://foclis.org" style="display:inline-block;padding:12px 28px;background:#3b82f6;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">
-                Visit FoCLIS Website
+            <a href="https://foclishack.vercel.app/" style="display:inline-block;padding:12px 28px;background:#3b82f6;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">
+                Visit FoCLIS Website →
             </a>
         </td></tr>
-    "#, name=name, role_line=role_line, extra_block=extra_block))
+    "#, name=name, role_line=role_line, extra_block=extra_block, hacker_note=hacker_note))
 }
 
 /// 24-hour follow-up email
@@ -91,13 +123,13 @@ pub fn follow_up_email(name: &str, role: &str) -> String {
 
     base_template(&format!(r#"
         <tr><td style="padding:0 0 8px">
-            <p style="margin:0;font-size:22px;font-weight:700;color:#e2e8f0;">Still thinking about it, {name}? 🚀</p>
+            <p style="margin:0;font-size:22px;font-weight:700;color:#e2e8f0;">Still thinking about it, {name}? </p>
         </td></tr>
         <tr><td style="padding:0 0 20px">
             {body}
         </td></tr>
         <tr><td style="padding:0 0 0">
-            <a href="https://foclis.org" style="display:inline-block;padding:12px 28px;background:#3b82f6;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">
+            <a href="https://foclishack.vercel.app/" style="display:inline-block;padding:12px 28px;background:#3b82f6;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">
                 Visit FoCLIS Website →
             </a>
         </td></tr>
@@ -147,8 +179,8 @@ fn base_template(inner: &str) -> String {
         <tr><td style="padding:20px 36px;border-top:1px solid rgba(255,255,255,0.05);background:rgba(0,0,0,0.2);">
           <p style="margin:0;font-size:11px;color:#334155;text-align:center;line-height:1.8;">
             FoCLIS Hackathon 2026 · Kabale University, Uganda<br>
-            You're receiving this because you registered at foclis.org<br>
-            <a href="https://foclis.org" style="color:#3b82f6;text-decoration:none;">foclis.org</a>
+            You're receiving this because you registered at foclishack.vercel.app/<br>
+            <a href="https://foclishack.vercel.app/" style="color:#3b82f6;text-decoration:none;">foclishack.vercel.app/</a>
           </p>
         </td></tr>
 

@@ -1,33 +1,31 @@
 import { useState, useEffect } from 'react'
-import { Menu, X, Lock } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 // ─── Nav Links ─────────────────────────────────────────────────────────────
 const navLinks = [
-  { label: 'About',     href: '/#about',     type: 'hash' },
-  { label: 'Themes',    href: '/themes',      type: 'page' },
-  { label: 'Prizes',    href: '/#prizes',     type: 'hash' },
-  { label: 'Schedule',  href: '#timeline',   type: 'hash' },
-  { label: 'Speakers',  href: '/#speakers',   type: 'hash' },
-  { label: 'Partners',  href: '/#partners',   type: 'hash' },
-  { label: 'FAQ',       href: '/#faq',        type: 'hash' },
+  { label: 'About',    href: '/#about',    type: 'hash' },
+  { label: 'Themes',   href: '/themes',    type: 'page' },
+  { label: 'Prizes',   href: '/#prizes',   type: 'hash' },
+  { label: 'Schedule', href: '/#timeline', type: 'hash' },
+  { label: 'Speakers', href: '/#speakers', type: 'hash' },
+  { label: 'Partners', href: '/#partners', type: 'hash' },
+  { label: 'FAQ',      href: '/#faq',      type: 'hash' },
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [hidden, setHidden] = useState(false)
+  const [scrolled, setScrolled]     = useState(false)
+  const [hidden, setHidden]         = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
-  const [open, setOpen]         = useState(false)
-  const location                = useLocation()
-  const navigate                = useNavigate()
-  const isHomePage              = location.pathname === '/'
+  const [open, setOpen]             = useState(false)
+  const location                    = useLocation()
+  const navigate                    = useNavigate()
+  const isHomePage                  = location.pathname === '/'
 
   useEffect(() => {
     const onScroll = () => {
       const currentScrollY = window.scrollY
       setScrolled(currentScrollY > 50)
-      
-      // Hide navbar when scrolling down, show when scrolling up
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setHidden(true)
       } else {
@@ -35,24 +33,20 @@ export default function Navbar() {
       }
       setLastScrollY(currentScrollY)
     }
-    
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [lastScrollY])
 
   useEffect(() => { setOpen(false) }, [location.pathname])
 
-  // Handle hash link navigation
   const handleHashLink = (href) => {
     const sectionId = href.split('#')[1]
     if (isHomePage) {
-      // If on homepage, scroll to section
       setTimeout(() => {
         const element = document.getElementById(sectionId)
         if (element) element.scrollIntoView({ behavior: 'smooth' })
       }, 0)
     } else {
-      // If on other page, navigate to homepage with hash
       navigate(`/#${sectionId}`)
     }
   }
@@ -61,15 +55,8 @@ export default function Navbar() {
     <header className={`navbar-root ${scrolled ? 'navbar-scrolled' : ''} ${hidden ? 'navbar-hidden' : ''}`}>
       <div className="navbar-inner">
 
-        {/* ── Logo ──────────────────────────────────────────────────── */}
+        {/* ── Logo ── */}
         <Link to="/" className="navbar-logo">
-          {/*
-            LOGO IMAGE — replace the src below with your actual logo path.
-            Example: src="/assets/foclis-logo.png"
-            or:       src="https://your-cdn.com/logo.png"
-
-            The placeholder below uses Unsplash for demo purposes only.
-          */}
           <img
             src="https://images.unsplash.com/photo-1614332287897-cdc485fa562d?w=40&h=40&fit=crop&crop=center"
             alt="FoCLIS Logo"
@@ -81,7 +68,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* ── Desktop Nav ───────────────────────────────────────────── */}
+        {/* ── Desktop Nav ── */}
         <nav className="navbar-links">
           {navLinks.map(link => {
             const isActive = link.type === 'page' && location.pathname === link.href
@@ -114,26 +101,14 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* ── Register CTA ─────────────────────────────────────────── */}
+        {/* ── Register CTA ── */}
         <div className="navbar-cta">
-          <button
-            disabled
-            className="btn-register"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              opacity: 0.5,
-              cursor: 'not-allowed',
-              pointerEvents: 'none',
-            }}
-          >
-            <Lock size={16} />
-            Register Locked
-          </button>
+          <Link to="/register" className="btn-register">
+            Register Now
+          </Link>
         </div>
 
-        {/* ── Mobile Toggle ────────────────────────────────────────── */}
+        {/* ── Mobile Toggle ── */}
         <button
           className="navbar-mobile-toggle"
           onClick={() => setOpen(v => !v)}
@@ -143,7 +118,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* ── Mobile Drawer ────────────────────────────────────────────── */}
+      {/* ── Mobile Drawer ── */}
       <div className={`navbar-drawer ${open ? 'navbar-drawer--open' : ''}`}>
         <nav className="navbar-drawer-links">
           {navLinks.map(link => {
@@ -178,24 +153,14 @@ export default function Navbar() {
             )
           })}
 
-          {/* should go on register page not home page which is at pages RegisterPage.jsx */}
-
-          <button
-            disabled
+          <Link
+            to="/register"
+            onClick={() => setOpen(false)}
             className="btn-register btn-register--mobile"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              opacity: 0.5,
-              cursor: 'not-allowed',
-              pointerEvents: 'none',
-            }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            <Lock size={16} />
-            Register Locked
-          </button>
+            Register Now
+          </Link>
         </nav>
       </div>
     </header>
