@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO registrations\n            (role, email, phone, first_name, last_name, org, course, year_of_study, reason)\n        VALUES\n            ('attendee', $1, $2, $3, $4, $5, $6, $7, $8)\n        RETURNING id\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "3bfb219e34bdc1696c2eea54d682d80e6a6f8b1b67aae2927a3eed15b0d81c03"
+}

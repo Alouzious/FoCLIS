@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT DISTINCT email FROM registrations\n        WHERE ($1::text IS NULL OR role = $1)\n          AND status != 'rejected'\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "email",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "ab5b0ceef02fa13535e26c56c72639c7466b442771d2743463517c15e485dc4e"
+}

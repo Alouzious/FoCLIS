@@ -1,0 +1,20 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT DISTINCT tm.email\n            FROM team_members tm\n            JOIN registrations r ON r.id = tm.registration_id\n            WHERE r.status != 'rejected'\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "email",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "f3c98210fdf0cf0c587a271359b61c0c1d254e5428519fc82bb9fbcb575011bc"
+}

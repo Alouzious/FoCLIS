@@ -1,0 +1,62 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT\n            COUNT(*)                                        AS total,\n            COUNT(*) FILTER (WHERE role = 'hacker')        AS hackers,\n            COUNT(*) FILTER (WHERE role = 'attendee')      AS attendees,\n            COUNT(*) FILTER (WHERE role = 'sponsor')       AS sponsors,\n            COUNT(*) FILTER (WHERE role = 'lecturer')      AS lecturers,\n            COUNT(*) FILTER (WHERE status = 'pending')     AS pending,\n            COUNT(*) FILTER (WHERE status = 'approved')    AS approved,\n            COUNT(*) FILTER (WHERE status = 'rejected')    AS rejected\n        FROM registrations\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "total",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 1,
+        "name": "hackers",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 2,
+        "name": "attendees",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 3,
+        "name": "sponsors",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 4,
+        "name": "lecturers",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 5,
+        "name": "pending",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 6,
+        "name": "approved",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 7,
+        "name": "rejected",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "46f31990528fae36d848c63e43c4cfb27379571e42d2def189ebcfbdc18eaaab"
+}

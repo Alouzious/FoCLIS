@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE registrations SET follow_up_sent = TRUE, follow_up_at = $1 WHERE id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Timestamptz",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "b458eb424f123482c9cfe9c1b2d506d8c2178c4f52beaaea69db24fd4a8e84e0"
+}
