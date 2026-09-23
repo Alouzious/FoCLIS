@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { ChevronDown, ArrowRight, Sprout, HeartPulse, BookOpen, TrendingUp } from 'lucide-react'
+import { ChevronDown, Sprout, HeartPulse, BookOpen, TrendingUp } from 'lucide-react'
 
 const CARD_IMAGES = [
   {
@@ -100,7 +100,7 @@ export default function Hero() {
 
           <div
             className="hero-wordmark hero-anim"
-            style={{ animationDelay: '0.08s' }}
+            style={{ animationDelay: '0.08s', fontWeight: 900, letterSpacing: '-0.02em' }}
             aria-label="FoCLIS HACKATHON 2026"
           >
             <span className="hero-word-fo">Fo</span><span className="hero-word-clis">CLIS</span>
@@ -129,16 +129,6 @@ export default function Hero() {
               <span className="hero-reg-open-dot" aria-hidden="true" />
               <span>Grand Finals are today!</span>
             </div>
-          </div>
-
-          {/* CTA buttons — fully unlocked */}
-          <div className="hero-ctas hero-anim" style={{ animationDelay: '0.46s' }}>
-            <a href="/register" className="hero-btn-primary">
-              <ArrowRight size={16} aria-hidden="true" /> Register Now
-            </a>
-            <a href="/themes" className="hero-btn-secondary">
-              View Themes <ArrowRight size={15} aria-hidden="true" />
-            </a>
           </div>
 
           <div className="hero-stats hero-anim" style={{ animationDelay: '0.56s' }}>
