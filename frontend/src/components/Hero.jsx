@@ -86,7 +86,7 @@ function ImageCards() {
 }
 
 export default function Hero() {
-  // Registration is open — June 6 2026 has passed
+  // Grand Finals are today
   return (
     <section className="hero-root" aria-label="FoCLIS Hackathon 2026 hero section">
 
@@ -123,13 +123,13 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Registration open indicator */}
-          {/* <div className="hero-reg-block hero-anim" style={{ animationDelay: '0.36s' }}>
+          {/* Grand Finals indicator */}
+          <div className="hero-reg-block hero-anim" style={{ animationDelay: '0.36s' }}>
             <div className="hero-reg-open">
               <span className="hero-reg-open-dot" aria-hidden="true" />
-              <span>Applications are open!</span>
+              <span>Grand Finals are today!</span>
             </div>
-          </div> */}
+          </div>
 
           {/* CTA buttons — fully unlocked */}
           <div className="hero-ctas hero-anim" style={{ animationDelay: '0.46s' }}>
